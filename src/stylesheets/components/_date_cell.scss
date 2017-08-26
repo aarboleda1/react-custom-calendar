@@ -1,0 +1,37 @@
+.rc-date-cell {
+    width: $cell-width;
+    min-height: 60px;
+    border: $show-me-border;
+    height: 16.35%;
+    // position: absolute;
+    cursor: pointer;
+    -webkit-transition-property: width;
+    /* Safari */
+    -webkit-transition-duration: 2s;
+    /* Safari */
+    // transition-property: height;
+    // transition-duration: 0.3s;
+    // &:hover {
+    //     height: 230px;
+    //     background: yellow;
+    // }
+    >.rc-date-add-event {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90px;
+        width: 70px;
+        background: #eee;
+        margin: 5px 4px;
+    }
+}
+
+.rc-popup {
+    height: 300px;
+    width: 180px;
+    background: white;
+    >.rc-popup-block {
+        display: flex;
+        flex-direction: column;
+    }
+}

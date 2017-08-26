@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
 import moment from 'moment';
-import {daysOfWeek, getDaysArray, uniqueID} from '../utils/utils';
+import {daysOfWeek, getDaysArray, uniqueID, months} from '../utils/utils';
 
 
 import MonthRow from './MonthRow';
@@ -54,16 +54,19 @@ export default class Calendar extends Component {
 		month: 'August',
 		view: 'Calendar', // change these to be repsective of props
 		daysForMonth: null,
+		year: null,
 	}
-	componentWillMount = () => {
+	componentWillMount = () => {		
 		const {defaultCalView} = this.props;
 		let date = this.props.date || new Date;
-		let monthInt = defaultCalView[1] || date.getMonth() + 1; // gives it back from months 0 - 11
-		let year = defaultCalView[0] || moment().year();
+		let monthInt = defaultCalView ? defaultCalView[1] : date.getMonth() + 1; // gives it back from months 0 - 11
+		let year = defaultCalView ? defaultCalView[0] : moment().year();
 		let daysForMonth = getDaysArray(year, monthInt);
 		this.setState({
 			daysForMonth: daysForMonth,
-			monthInt: monthInt - 1, //  subtract one beca
+			monthInt: monthInt, //  subtract one beca
+			month: months[monthInt],
+			year: year,
 		})
 	}
 
@@ -73,54 +76,53 @@ export default class Calendar extends Component {
 		})
 	}
 	renderWeeks = () => {
-		return this.state.daysForMonth.map((week ,index) => {
-			return <MonthRow week={week} key={uniqueID()}/>
+		let extraRow = this.state.daysForMonth.length === 6 ? true : false;
+		return this.state.daysForMonth.map((week, index) => {
+			return <MonthRow extraRow={extraRow} week={week} key={uniqueID()}/>
 		})
 	}
-	onCalendarNavigation = (e) => {
-		let direction = e.target.dataset.direction;
-		const {monthInt, month} = this.state;
-		let daysForMonth;
-		const months = [
-			'January', 
-			'February',
-			'March', 
-			'April', 
-			'May', 
-			'June', 
-			'July', 
-			'August',
-			'September',
-			'October',
-			'November',
-			'December'
-		];
-		if (direction === 'forward') {
-			daysForMonth = getDaysArray(2017, this.state.monthInt + 1);			
-			this.setState({
-				daysForMonth: daysForMonth,
-				monthInt: this.state.monthInt < 12 ? this.state.monthInt + 1 : 1,
-				month: months[this.state.monthInt],
-			})
+	onNavigate = (e) => {
+		let direction = e.target.dataset.direction
+				,daysForMonth 
+				,_month //used to calculate new month and then set the state
+				,_year; 
+		const {monthInt, month, year} = this.state;		
+		if (direction === 'forward') {			
+			/* If we get to end of year, increase month */
+			// _month = this.state.monthInt === 12 ? 1 : this.state.monthInt + 1;
+			if (this.state.monthInt === 12) {
+				_month = 1;
+				_year = this.state.year + 1;
+			} else {
+				_month = this.state.monthInt + 1;
+				_year = this.state.year;
+			}
+			daysForMonth = getDaysArray(_year, _month);
 		} else if (direction === 'back') {
-			console.log(months[this.state.monthInt])
-			daysForMonth = getDaysArray(2017, this.state.monthInt - 1);
-			this.setState({
-				daysForMonth: daysForMonth,
-				month: months[this.state.monthInt - 1],
-				monthInt: this.state.monthInt - 1,
-			})				
+			if (this.state.monthInt === 1) {
+				_year = this.state.year - 1;	
+				_month = 12; 
+			} else {
+				_year = this.state.year;
+				_month = this.state.monthInt - 1;
+			}
+			daysForMonth = getDaysArray(_year, _month);
+		} else if (direction === 'today') {
+			let date = new Date;
+			_year = moment().year();
+			_month = date.getMonth() + 1;			
+			daysForMonth = getDaysArray(_year, _month);
 		}
-		// let daysForMonth = getDaysArray(2017, 9);
-		// let month = 0;
-		// this.setState({
-		// 	daysForMonth: daysForMonth,
-		// 	month: months[month]
-		// })
+		this.setState({
+			daysForMonth: daysForMonth,
+			month: months[_month],
+			monthInt: _month,
+			year: _year,
+		})
 	}
 	render() {
 		// let Filter = components.filter || Filter;
-		const {month} = this.state;
+		const {month, year} = this.state;
 		return(
 			<div className="rc-calendar">
 				{/*  Contitional filter toolbar to render
@@ -128,19 +130,21 @@ export default class Calendar extends Component {
 				*/}
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
-						{month} 2017
+						{month} {year}
 					</span>
 					<span className="rc-button-group">
-             <button className="rc-button" data-direction="back" onClick={this.onCalendarNavigation}>{'<'}</button>
-						 <button className="rc-button" data-direction="today" onClick={this.onCalendarNavigation}>Today</button>
-						 <button className="rc-button" data-direction="forward" onClick={this.onCalendarNavigation}>{'>'}</button>
+             <button className="rc-button" data-direction="back" onClick={this.onNavigate}>{'<'}</button>
+						 <button className="rc-button" data-direction="today" onClick={this.onNavigate}>Today</button>
+						 <button className="rc-button" data-direction="forward" onClick={this.onNavigate}>{'>'}</button>
 					</span>
 				</div>
-				<div className="rc-month-view">
-					<div className="rc-month-row-header">
-            {this.renderMonthHeader()}
+				<div className="rc-month-row-header">
+					{this.renderMonthHeader()}
+				</div>
+        <div className="rc-elastic-month-view-wrapper">				
+					<div className="rc-month-view">
+						{this.renderWeeks()}											
 					</div>
-					{this.renderWeeks()}											
 				</div>
 			</div>
 		)

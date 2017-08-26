@@ -1,5 +1,6 @@
 export const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat'];
 export const months = [
+	null,
   'January', 
 	'February',
 	'March', 
@@ -17,13 +18,15 @@ export const months = [
 export function getDaysArray(year, month) {
 	const names = [ 'Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat' ];
 	let date = new Date(year, month-1, 1);
-  const result = [[], [], [], [], [], []];
+  const result = [[], [], [], [], []];
   let week = 0;
-  while (date.getMonth() == month-1 && week < 6) {		
+  while (date.getMonth() == month-1 && week < 6) {
+    /* If there are 5 rows to be rendered, create an extra week */
+    if (week === 5) result[5] = []; 		
     result[week].push(date.getDate()+ '-' +names[date.getDay()]);
     if (names[date.getDay()] =='Sat') week++;
     date.setDate(date.getDate()+1);
-  }
+	}
   return result;
 }
 
