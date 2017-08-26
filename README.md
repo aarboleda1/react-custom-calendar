@@ -11,13 +11,17 @@ https://css-tricks.com/responsive-data-tables/
 
  ## Calendar   View
 
-  - [ ] Reusable Calednar View
+  - [X] Reusable Calednar View
 	- [ ] Create, edit, delete events
 	- [ ] Modal Popover for each event
 	- [ ] Should take a Filter Sidebar Component
 	- [ ] Sidebar is completely separate
 
+
+## Todo Create Events today and save them and take snapshot
 ## Styles 
+
+
 
 All classnames are prefixed with rc
  The   calendar   view   should   incorporate   a   reusable    calendar   component    with   the   ability   to   create,   edit, delete   events.   Creating,   editing,   and   deleting   events   should   be   done   via   modal/popover.   Clicking   on an   empty   cell   should   bring   up   the   event   creation   modal   where   the   user   can   edit   the   following attributes:

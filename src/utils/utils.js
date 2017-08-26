@@ -14,6 +14,7 @@ export const months = [
 	'November',
 	'December'
 ];
+export const eventTypes = ['Company Events', 'Holidays', 'Company Events', 'Miscellaneous'];
 
 export function getDaysArray(year, month) {
 	const names = [ 'Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat' ];
@@ -30,10 +31,14 @@ export function getDaysArray(year, month) {
   return result;
 }
 
-/*Random key generator for keys*/
+/* Random key generator for lists */
 export function uniqueID () {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
   return '_' + Math.random().toString(36).substr(2, 7);
 }
+
+
+export function daysInMonth(month,year) {
+	return new Date(year, month, 0).getDate();
+}
+
+export let now = new Date();

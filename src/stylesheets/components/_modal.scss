@@ -1,0 +1,50 @@
+/*extract this to popup compoennt folder*/
+
+.rc-popup-background {
+    display: none;
+    // display: block;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    &.show {
+        display: block;
+    }
+}
+
+.rc-popup {
+    height: 270px;
+    width: 30%;
+    background: white;
+    font-size: small;
+    padding: 10px;
+    margin: auto;
+    .rc-popup-block-wrapper {
+        display: flex;
+        flex-direction: row;
+    }
+    >.rc-popup-title {
+        font-size: large;
+    }
+    >.rc-popup-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background: #eee;
+        padding: 10px 3px;
+    }
+}
+
+.rc-popup-block {
+    display: flex;
+    flex-direction: column;
+    height: 42px;
+    margin: 0px 5px;
+}

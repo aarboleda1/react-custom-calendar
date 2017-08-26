@@ -7,15 +7,20 @@ export default class MonthRow extends Component{
 	static PropTypes = {
 		week: PropTypes.array.isRequired,
 		extraRow: PropTypes.bool,
+		daysThisMonth: PropTypes.number,
+		month: PropTypes.string.isRequired,
+		openModal: PropTypes.func,
+		events: PropTypes.arrayOf(PropTypes.object)
 	}
 	static defaultProps = {}
 	constructor(props) {
 		super(props);
 	}
-	componentWillReceiveProps = () => {
+	componentWillReceiveProps = (nextProps) => {
+		console.log(nextProps, 'are next props')
 	}
 	renderDays = () => {
-		const {week} = this.props; 
+		const {week, daysThisMonth, events} = this.props; 
 		let isBeginningOfMonth = week.length > 0 ? week[0].split('-')[0] < 20 : false;
 		/* If It is the beginning of the month, append empty cells */
 		if (week.length < 7 && isBeginningOfMonth) {
@@ -26,7 +31,16 @@ export default class MonthRow extends Component{
 		}
 		return week.map((date) => {
 			date = date.split('-')[0];
-			return <DateCell key={uniqueID()} date={date}/>
+			return (
+				<DateCell 
+					month={this.props.month} 
+					daysThisMonth={daysThisMonth} 
+					key={uniqueID()} 
+					date={date}
+					openModal={this.props.openModal}
+					events={events}
+				/>
+			)
 		})
 	}
   render(){

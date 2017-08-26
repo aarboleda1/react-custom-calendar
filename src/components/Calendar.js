@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
 import moment from 'moment';
-import {daysOfWeek, getDaysArray, uniqueID, months} from '../utils/utils';
+import Popover from './Popover';
 
-
+import {daysOfWeek, getDaysArray, uniqueID, months, daysInMonth, now} from '../utils/utils';
 import MonthRow from './MonthRow';
-let now = new Date();
+
 export default class Calendar extends Component {
 	static propTypes = {
 		/*props passed to main calendar*/
@@ -19,6 +19,8 @@ export default class Calendar extends Component {
 		view: PropTypes.string,
 		// events: PropTypes.arrayOf(PropTypes.object),
 		
+		/* Call back to add event to calendar and return new event */
+		onAddEvent: PropTypes.func,
 		   /**
     * Callback fired when dragging a selection in the Time views.
     *
@@ -39,8 +41,7 @@ export default class Calendar extends Component {
 			/*allow use to pass in any special type of date*/
 		}),
 		/* Default CalendarView [year, month] year: 2017, month: 7*/
-		defaultCalView: PropTypes.array
-
+		defaultCalView: PropTypes.array		
 	}
 	static defaultProps = {
 		elementProps: {},
@@ -50,11 +51,17 @@ export default class Calendar extends Component {
 		},
 		view: 'calendar',
 	}
-	state = {
-		month: 'August',
-		view: 'Calendar', // change these to be repsective of props
-		daysForMonth: null,
-		year: null,
+	constructor (props) {
+		super(props)
+		this.state = {
+			month: 'August',
+			view: 'Calendar', // change these to be repsective of props
+			daysForMonth: null,
+			year: null,
+			daysThisMonth: 30,
+			dateClicked: null,
+		}
+		this.events = [];
 	}
 	componentWillMount = () => {		
 		const {defaultCalView} = this.props;
@@ -62,14 +69,31 @@ export default class Calendar extends Component {
 		let monthInt = defaultCalView ? defaultCalView[1] : date.getMonth() + 1; // gives it back from months 0 - 11
 		let year = defaultCalView ? defaultCalView[0] : moment().year();
 		let daysForMonth = getDaysArray(year, monthInt);
+		let daysThisMonth = daysInMonth(year, monthInt)
 		this.setState({
 			daysForMonth: daysForMonth,
 			monthInt: monthInt, //  subtract one beca
 			month: months[monthInt],
 			year: year,
+			daysThisMonth: daysThisMonth,
+			events: [{amPm: "AM", date: "6", hour: 8, minute: "30", month: "January",name: "afwe", type: "Company Events", month: "January"}],
 		})
 	}
-
+	componentDidMount = () => {
+		let context = this;
+		window.onclick = function(event) {
+			if(event.target.className === 'rc-popup-background show') {
+				context.closeModal();
+			} 
+			event.preventDefault();
+		}
+	}	
+	openModal = (date) => {
+		this.setState({
+			showModal: true,
+			dateClicked: date,
+		})
+	}
 	renderMonthHeader = () => {
 		return daysOfWeek.map((day) => {
 			return <div key={day} className="rc-header-title">{day}</div>
@@ -78,7 +102,17 @@ export default class Calendar extends Component {
 	renderWeeks = () => {
 		let extraRow = this.state.daysForMonth.length === 6 ? true : false;
 		return this.state.daysForMonth.map((week, index) => {
-			return <MonthRow extraRow={extraRow} week={week} key={uniqueID()}/>
+			return (
+				<MonthRow 
+					extraRow={extraRow} 
+					week={week} 
+					key={uniqueID()}
+					daysThisMonth={this.state.daysThisMonth}
+					month={this.state.month}
+					openModal={this.openModal}
+					events={this.state.events}
+				/>
+			)
 		})
 	}
 	onNavigate = (e) => {
@@ -120,14 +154,40 @@ export default class Calendar extends Component {
 			year: _year,
 		})
 	}
+	closeModal = () => {
+		this.setState({
+			showModal: false,
+		})
+	}	
+
+	onAddEvent = (event) => {
+		console.log(event)
+		this.events = this.state.events.concat([event]);
+		this.setState({
+			events: this.state.events.concat([event]),
+		})
+		this.closeModal();
+		console.log(this.events)
+	}
 	render() {
 		// let Filter = components.filter || Filter;
-		const {month, year} = this.state;
+		const {month, year, showModal} = this.state;
 		return(
 			<div className="rc-calendar">
 				{/*  Contitional filter toolbar to render
 					{filter && <Filter/>}
 				*/}
+
+				<Popover
+					showModal={showModal}
+					closeModal={this.closeModal}
+					month={month}
+					date={20}
+					onAddEvent={this.onAddEvent}
+					dateClicked={this.state.dateClicked}
+				/>
+
+
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
 						{month} {year}

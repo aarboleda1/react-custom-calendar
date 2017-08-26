@@ -25,13 +25,3 @@
         margin: 5px 4px;
     }
 }
-
-.rc-popup {
-    height: 300px;
-    width: 180px;
-    background: white;
-    >.rc-popup-block {
-        display: flex;
-        flex-direction: column;
-    }
-}

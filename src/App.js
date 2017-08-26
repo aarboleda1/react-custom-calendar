@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
 import Calendar from './components/Calendar';
+import Popover from './components/Popover'; //delete this after testing
 import './stylesheets/main.css';
 let now = new Date;
 class App extends Component {
+
   render() {
     return (
       <div className="rc-app-wrapper">
@@ -14,8 +16,10 @@ class App extends Component {
 							onChangeView={() => 'hello'}
 							view={'calendar'}
 							date={now}
-							defaultCalView={[2017, 8]}
+							defaultCalView={[2017, 1]}
 						/>
+
+						<Popover/>
           </div>
         </section>
       </div>
