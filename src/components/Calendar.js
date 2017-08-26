@@ -37,7 +37,10 @@ export default class Calendar extends Component {
 		components: PropTypes.shape({
 			filter: elementType,
 			/*allow use to pass in any special type of date*/
-		})		
+		}),
+		/* Default CalendarView [year, month] year: 2017, month: 7*/
+		defaultCalView: PropTypes.array
+
 	}
 	static defaultProps = {
 		elementProps: {},
@@ -53,17 +56,17 @@ export default class Calendar extends Component {
 		daysForMonth: null,
 	}
 	componentWillMount = () => {
+		const {defaultCalView} = this.props;
 		let date = this.props.date || new Date;
-		let month = date.getMonth() + 1; // gives it back from months 0 - 11
-		let day = date.getDate();
-		let year = moment().year();
-		let daysForMonth = getDaysArray(year, month);
+		let monthInt = defaultCalView[1] || date.getMonth() + 1; // gives it back from months 0 - 11
+		let year = defaultCalView[0] || moment().year();
+		let daysForMonth = getDaysArray(year, monthInt);
 		this.setState({
 			daysForMonth: daysForMonth,
+			monthInt: monthInt - 1, //  subtract one beca
 		})
 	}
-	componentDidMount = () => {
-	}
+
 	renderMonthHeader = () => {
 		return daysOfWeek.map((day) => {
 			return <div key={day} className="rc-header-title">{day}</div>
@@ -74,9 +77,50 @@ export default class Calendar extends Component {
 			return <MonthRow week={week} key={uniqueID()}/>
 		})
 	}
+	onCalendarNavigation = (e) => {
+		let direction = e.target.dataset.direction;
+		const {monthInt, month} = this.state;
+		let daysForMonth;
+		const months = [
+			'January', 
+			'February',
+			'March', 
+			'April', 
+			'May', 
+			'June', 
+			'July', 
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
+		if (direction === 'forward') {
+			daysForMonth = getDaysArray(2017, this.state.monthInt + 1);			
+			this.setState({
+				daysForMonth: daysForMonth,
+				monthInt: this.state.monthInt < 12 ? this.state.monthInt + 1 : 1,
+				month: months[this.state.monthInt],
+			})
+		} else if (direction === 'back') {
+			console.log(months[this.state.monthInt])
+			daysForMonth = getDaysArray(2017, this.state.monthInt - 1);
+			this.setState({
+				daysForMonth: daysForMonth,
+				month: months[this.state.monthInt - 1],
+				monthInt: this.state.monthInt - 1,
+			})				
+		}
+		// let daysForMonth = getDaysArray(2017, 9);
+		// let month = 0;
+		// this.setState({
+		// 	daysForMonth: daysForMonth,
+		// 	month: months[month]
+		// })
+	}
 	render() {
 		// let Filter = components.filter || Filter;
-		console.log(this.state.daysForMonth, 'are days of week RENDER')
+		const {month} = this.state;
 		return(
 			<div className="rc-calendar">
 				{/*  Contitional filter toolbar to render
@@ -84,12 +128,12 @@ export default class Calendar extends Component {
 				*/}
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
-						August
+						{month} 2017
 					</span>
 					<span className="rc-button-group">
-             <button className="rc-button">{'<'}</button>
-						 <button className="rc-button">Today</button>
-						 <button className="rc-button">{'>'}</button>
+             <button className="rc-button" data-direction="back" onClick={this.onCalendarNavigation}>{'<'}</button>
+						 <button className="rc-button" data-direction="today" onClick={this.onCalendarNavigation}>Today</button>
+						 <button className="rc-button" data-direction="forward" onClick={this.onCalendarNavigation}>{'>'}</button>
 					</span>
 				</div>
 				<div className="rc-month-view">

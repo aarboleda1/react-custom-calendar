@@ -15,7 +15,7 @@ export default class MonthRow extends Component{
 	}
 	renderDays = () => {
 		const {week} = this.props; 
-		let isBeginningOfMonth = week[0].split('-')[0] < 20
+		let isBeginningOfMonth = week.length > 0 ? week[0].split('-')[0] < 20 : false;
 		/*If It is the beginning of the month, append empty cells*/
 		if (week.length < 7 && isBeginningOfMonth) {
 			let diff = 7 - week.length;

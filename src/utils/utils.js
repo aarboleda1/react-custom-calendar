@@ -15,11 +15,11 @@ export const months = [
 ];
 
 export function getDaysArray(year, month) {
-  const names = [ 'Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat' ];
-  let date = new Date(year, month-1, 1);
-  const result = [[], [], [], [], []];
+	const names = [ 'Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat' ];
+	let date = new Date(year, month-1, 1);
+  const result = [[], [], [], [], [], []];
   let week = 0;
-  while (date.getMonth() == month-1 && week < 6) {
+  while (date.getMonth() == month-1 && week < 6) {		
     result[week].push(date.getDate()+ '-' +names[date.getDay()]);
     if (names[date.getDay()] =='Sat') week++;
     date.setDate(date.getDate()+1);

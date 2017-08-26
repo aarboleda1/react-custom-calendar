@@ -11,7 +11,10 @@ class App extends Component {
         <section className="content rc-app-main">
           <div className="rc-container-wrapper">
             <Calendar
+							onChangeView={() => 'hello'}
+							view={'calendar'}
 							date={now}
+							defaultCalView={[2017, 8]}
 						/>
           </div>
         </section>
