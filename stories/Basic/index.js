@@ -1,10 +1,7 @@
 import React from 'react';
-import { App } from '../../src';
-
-const Basic = () => (
-	<div className="rdw-storybook-root">
-		Place a calendar app in here
-	</div>
-);
+// import { App } from '../../src';
+import Calendar from '../../src/components/Calendar';
+import '../../src/stylesheets/main.css';
+const Basic = () => <Calendar/>;
 
 export default Basic;

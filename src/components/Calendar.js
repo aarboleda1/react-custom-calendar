@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
-import {daysOfWeek} from '../utils/utils';
+import moment from 'moment';
+import {daysOfWeek, getDaysArray, uniqueID} from '../utils/utils';
+
+
+import MonthRow from './MonthRow';
 let now = new Date();
 export default class Calendar extends Component {
 	static propTypes = {
@@ -37,23 +41,47 @@ export default class Calendar extends Component {
 	}
 	static defaultProps = {
 		elementProps: {},
-		date: now,
+		date: now, 
 		components: {
 			filter: null,
 		},
 		view: 'calendar',
 	}
+	state = {
+		month: 'August',
+		view: 'Calendar', // change these to be repsective of props
+		daysForMonth: null,
+	}
+	componentWillMount = () => {
+		let date = this.props.date || new Date;
+		let month = date.getMonth() + 1; // gives it back from months 0 - 11
+		let day = date.getDate();
+		let year = moment().year();
+		let daysForMonth = getDaysArray(year, month);
+		this.setState({
+			daysForMonth: daysForMonth,
+		})
+	}
 	componentDidMount = () => {
-		console.log(daysOfWeek)
 	}
 	renderMonthHeader = () => {
 		return daysOfWeek.map((day) => {
 			return <div key={day} className="rc-header-title">{day}</div>
 		})
 	}
+	renderWeeks = () => {
+		return this.state.daysForMonth.map((week ,index) => {
+			return <MonthRow week={week} key={uniqueID()}/>
+		})
+	}
 	render() {
+		// let Filter = components.filter || Filter;
+		console.log(this.state.daysForMonth, 'are days of week RENDER')
 		return(
 			<div className="rc-calendar">
+				{/*  Contitional filter toolbar to render
+					{filter && <Filter/>}
+				*/}
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
 						August
@@ -65,18 +93,10 @@ export default class Calendar extends Component {
 					</span>
 				</div>
 				<div className="rc-month-view">
-					<div className="rc-month-row rc-month-header">
+					<div className="rc-month-row-header">
             {this.renderMonthHeader()}
 					</div>
-					<div className="rc-month-row">
-						<div className="rc-date-cell"></div>
-						<div className="rc-date-cell"></div>
-						<div className="rc-date-cell"></div>
-						<div className="rc-date-cell"></div>
-						<div className="rc-date-cell"></div>
-						<div className="rc-date-cell"></div>
-						<div className="rc-date-cell"></div>
-					</div>
+					{this.renderWeeks()}											
 				</div>
 			</div>
 		)

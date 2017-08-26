@@ -1,6 +1,6 @@
 $cell-width: 14.285%;
 $border-bottom: 0.5px solid gray;
-$show-me-border: 1px dotted black;
+$show-me-border: none;
 .rc-calendar {
     position: relative;
     width: 100%;
@@ -43,7 +43,13 @@ $show-me-border: 1px dotted black;
 .rc-month-row {
     display: flex;
     flex-direction: row;
+    height: 19.35%;
     border-bottom: $border-bottom;
+}
+
+.rc-month-row-header {
+    display: flex;
+    flex-direction: row;
 }
 
 

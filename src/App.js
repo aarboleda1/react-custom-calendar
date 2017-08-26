@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Calendar from './components/Calendar';
 import './stylesheets/main.css';
+let now = new Date;
 class App extends Component {
   render() {
     return (
@@ -9,7 +10,9 @@ class App extends Component {
         <Header/>
         <section className="content rc-app-main">
           <div className="rc-container-wrapper">
-            <Calendar/>
+            <Calendar
+							date={now}
+						/>
           </div>
         </section>
       </div>
