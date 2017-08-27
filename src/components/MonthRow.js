@@ -14,7 +14,7 @@ export default class MonthRow extends Component{
 	}
 	static defaultProps = {}
 	componentWillReceiveProps = (nextProps, nextState) => {
-		console.log(nextProps, nextState,  'are new prosp!')
+		console.log(nextProps.events, nextState,  'are new prosp!')
 	}
 	componentDidUpdate = () => {
 		console.log('updated?!')
@@ -39,6 +39,7 @@ export default class MonthRow extends Component{
 					date={date}
 					openModal={this.props.openModal}
 					events={events}
+					newEvent={this.props.newEvent}											
 				/>
 			)
 		})

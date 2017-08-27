@@ -12,21 +12,24 @@ export default class DateCell extends Component {
 		events: PropTypes.arrayOf(PropTypes.object),
 	};
 	static defaultProps = {};
-	state = {
-		isHovered: false,
-		displayPopover: false,
-		showModal: false,
-		month: this.props.month,
-		events: [],
-		date: this.props.date,
+	constructor(props) {
+		super(props);
+		this.state = {
+			month: this.props.month,
+			date: this.props.date,
+			test: false,
+			events: [],
+		}		
 	}
+
 	componentWillReceiveProps = (nextProps) => {
-		let event = this.props.events[0];
+		console.log('hay!')
+		let event = this.props.events[this.props.events.length - 1];
 		let {date, month} = event;
 		if (date === this.state.date  && this.state.month === month) {
-			this.setState({
-				events: this.state.events.concat([event]),
-			})
+			// this.setState({
+			// 	events: this.state.events.concat([event]),
+			// })
 		}
 	}
 	componentDidMount = () => {
@@ -38,43 +41,29 @@ export default class DateCell extends Component {
 			})
 		}
 	}
-	componentWillReceiveProps = (nextProps) => {
-		console.log(nextProps, 'are props!?')
-		let event = this.props.events[0];
-		let {date, month} = event;
-		if (date === this.state.date  && this.state.month === month) {
-			this.setState({
-				events: this.state.events.concat([event]),
-			})
-		}
+	shouldComponentUpdate = (newProps) => {
+		// let newEvent = _.difference(newProps.events, this.props.events);	 
+		// if (newEvent.date === this.state.date && newEvent.month === this.state.month) {
+		// 	return true;
+		// } else {
+		// 	return  false;
+		// }
+		return true;
 	}
-	onHover = () => {
-		this.setState({
-			isHovered: true,
-		})
-	}
-	handleMouseLeave = (event) => {
-		this.setState({
-			isHovered: false,
-		})
-		event.preventDefault();
+	componentWillUpdate = (nextProps, nextState) => {
+		// // this.setState({test: true})
+		// console.log(nextProps.events, this.props.events)
+		// let newEvent = _.difference(nextProps.events, this.props.events);
+		// // console.log(newEvent, 'is the new event')
+		// let ev = this.props.events[this.props.events.length - 1]
+		// if (this.props.newEvent.date === this.state.date && this.props.newEvent.month === this.state.month) {
+		// 	this.events = [...this.events, this.props.newEvent];
+		// }
 	}
 
 	handleClick = (event) => {
-
 		this.props.openModal(this.props.date)
 		event.preventDefault();		
-	}
-	closeModal = () => {
-		this.setState({
-			showModal: false,
-		})
-	}
-	onAddEvent = (event) => {
-		this.setState({
-			events: this.state.events.concat([event]),
-		})
-		
 	}
 	renderEvents = () => {
 		return this.state.events.map((event) => {
@@ -91,23 +80,23 @@ export default class DateCell extends Component {
     return (
 			<div 
 				key={uniqueID()} 
-				onMouseEnter={this.onHover}
-				onMouseOut={this.handleMouseLeave}
 				className="rc-date-cell"
 			>
 				<span className="rc-date-cell-header">
 					{date}
 				</span>
 
-				{this.state.events.length > 0 ? this.renderEvents(): null}
-				{isHovered && 
+				{this.state.events.length > 0? this.renderEvents(): null}
+				 
 					<div 
 						className="rc-date-add-event"
 						onClick={this.handleClick}
 					>
+						<span className="rc-span-add">
 						+
+						</span>
 					</div>
-				}				 			
+								 			
 			</div>
     )
   }

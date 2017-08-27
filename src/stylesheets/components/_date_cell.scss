@@ -15,13 +15,23 @@
     //     height: 230px;
     //     background: yellow;
     // }
-    >.rc-date-add-event {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 90px;
-        width: 70px;
-        background: #eee;
-        margin: 5px 4px;
+    &:hover {
+        .rc-span-add {
+            display: block;
+        }
+        >.rc-date-add-event,
+        {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 80%;
+            background: #eee;
+            margin: 5px 4px;
+        }
     }
+}
+
+.rc-span-add {
+    display: none;
 }

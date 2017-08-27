@@ -4,8 +4,16 @@ import elementType from 'react-prop-types/lib/elementType';
 import moment from 'moment';
 import Popover from './Popover';
 import _ from 'lodash';
-import {daysOfWeek, getDaysArray, uniqueID, months, daysInMonth, now} from '../utils/utils';
+import {
+	daysOfWeek, 
+	getDaysArray, 
+	uniqueID, 
+	months, 
+	daysInMonth, 
+	now
+} from '../utils/utils';
 import MonthRow from './MonthRow';
+import Month from './Month';
 
 export default class Calendar extends Component {
 	static propTypes = {
@@ -56,11 +64,12 @@ export default class Calendar extends Component {
 		this.state = {
 			month: 'August',
 			view: 'Calendar', // change these to be repsective of props
-			daysForMonth: null,
+			daysForMonth: [],
 			year: null,
 			daysThisMonth: 30,
 			dateClicked: null,
 			events: [],
+			newEvent: {},
 		}
 	}
 
@@ -91,11 +100,6 @@ export default class Calendar extends Component {
 	}	
 	componentWillUnmount = () => {
 		// window.removeEventListener('click', this.removeFocus)
-	}
-	componentDidUpdate = (prevProps, prevState) => {
-		// console.log(prevState, 'is the prev', this.state, 'is the current!')
-		let diff = _.differenceWith(prevState.events, this.state.events)
-		console.log(diff, 'is the new event!')
 	}
 	openModal = (date) => {
 		this.setState({
@@ -170,10 +174,9 @@ export default class Calendar extends Component {
 	}	
 
 	onAddEvent = (event) => {
-		let newEvents = this.state.events.concat([event]);
-		// console.log(newEvents)
 		this.setState({
-			events: newEvents,
+			events: [...this.state.events, event],
+			newEvent: event,
 		})
 		this.closeModal();
 	}
@@ -194,7 +197,6 @@ export default class Calendar extends Component {
 					dateClicked={this.state.dateClicked}
 				/>
 
-
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
 						{month} {year}
@@ -209,9 +211,13 @@ export default class Calendar extends Component {
 					{this.renderMonthHeader()}
 				</div>
         <div className="rc-elastic-month-view-wrapper">				
-					<div className="rc-month-view">
-						{this.renderWeeks()}											
-					</div>
+					<Month
+						daysForMonth={this.state.daysForMonth}
+						month={this.state.month}
+						openModal={this.openModal}
+						events={this.state.events}
+						newEvent={this.state.newEvent}						
+					/>
 				</div>
 			</div>
 		)

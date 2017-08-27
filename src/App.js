@@ -12,7 +12,7 @@ class App extends Component {
         <Header/>
         <section className="content rc-app-main">
           <div className="rc-container-wrapper">
-            {/*<Calendar
+            <Calendar
 							onChangeView={() => 'hello'}
 							view={'calendar'}
 							date={now}
@@ -20,8 +20,8 @@ class App extends Component {
 							elementProps={
 								{filter: Filter}
 							}
-						/>*/}
-						<Filter/>
+						/>
+						{/*<Filter/>*/}
 
           </div>
         </section>
