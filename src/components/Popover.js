@@ -24,7 +24,6 @@ export default class Popover extends Component {
 			amPm: 'AM',
 		}
 	}
-	
 	handleChange = (event) => {
 		let attribute = event.target.name;
 		this.setState({
@@ -34,6 +33,9 @@ export default class Popover extends Component {
 	}
 	handleSave = () => {
 		this.props.onAddEvent(this.state);
+		this.setState({
+			name: ''
+		}) 
 	}
 	renderMonths = () => {
 		let monthCopy = months.slice();

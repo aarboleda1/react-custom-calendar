@@ -36,9 +36,9 @@ export function uniqueID () {
   return '_' + Math.random().toString(36).substr(2, 7);
 }
 
-
 export function daysInMonth(month,year) {
 	return new Date(year, month, 0).getDate();
 }
 
 export let now = new Date();
+/*Experimental!*/

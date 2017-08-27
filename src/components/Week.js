@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
+
 import {uniqueID} from '../utils/utils';
 import DateCell from './DateCell';
-export default class MonthRow extends Component{
+export default class Week extends Component{
 	static PropTypes = {
 		week: PropTypes.array.isRequired,
 		extraRow: PropTypes.bool,
@@ -13,13 +15,14 @@ export default class MonthRow extends Component{
 		events: PropTypes.arrayOf(PropTypes.object)
 	}
 	static defaultProps = {}
-	componentWillReceiveProps = (nextProps, nextState) => {
-		console.log(nextProps.events, nextState,  'are new prosp!')
+	constructor(props) {
+		super(props)
+		this.state = {
+			events: this.props.events,
+		}
 	}
-	componentDidUpdate = () => {
-		console.log('updated?!')
-	}
-	renderDays = () => {
+
+	renderDateCells = () => {
 		const {week, daysThisMonth, events} = this.props; 
 		let isBeginningOfMonth = week.length > 0 ? week[0].split('-')[0] < 20 : false;
 		/* If It is the beginning of the month, append empty cells */
@@ -38,7 +41,7 @@ export default class MonthRow extends Component{
 					key={uniqueID()} 
 					date={date}
 					openModal={this.props.openModal}
-					events={events}
+					events={this.state.events}
 					newEvent={this.props.newEvent}											
 				/>
 			)
@@ -46,12 +49,12 @@ export default class MonthRow extends Component{
 	}
   render(){
 		var rowClass = classNames({
-			'extra-row': this.props.extraRow,
+			'extra-row': this.props.extraRow, // display extra row for months with 6 weeks
 			'rc-month-row': true,
-    });
+		});		
     return(
       <div className={rowClass}>
-				{this.renderDays()}
+				{this.renderDateCells()}
 			</div>
     );
   }

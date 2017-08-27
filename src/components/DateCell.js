@@ -5,6 +5,13 @@ import {uniqueID} from '../utils/utils';
 import Popover from './Popover';
 import  _ from 'lodash';
 
+const colorMap = {
+	'Birthdays': 'pink',
+	'Holidays': 'orange',
+	'Company Events': 'green',
+	'Miscellaneous': 'blue',
+}
+
 export default class DateCell extends Component {
 	static PropTypes = {
 		openModal: PropTypes.func,
@@ -18,47 +25,37 @@ export default class DateCell extends Component {
 			month: this.props.month,
 			date: this.props.date,
 			test: false,
-			events: [],
+			_events: [],
+			_eventNames:{}
 		}		
 	}
 
-	componentWillReceiveProps = (nextProps) => {
-		console.log('hay!')
-		let event = this.props.events[this.props.events.length - 1];
-		let {date, month} = event;
-		if (date === this.state.date  && this.state.month === month) {
-			// this.setState({
-			// 	events: this.state.events.concat([event]),
-			// })
+	componentWillMount = () => {
+		let events = this.props.events;
+		let newEvent = this.props.events[this.props.events.length - 1];
+		const {_eventNames} = this.state;
+		let _events = [];
+		for (let i = 0; i < events.length; i++) {
+			let event = events[i];
+			if (event.date === this.state.date && event.month === this.state.month && !_eventNames[event.name]) {
+				_events.push(event);
+				_eventNames[event.name] = true;
+			}
 		}
-	}
-	componentDidMount = () => {
-		let event = this.props.events[0];
-		let {date, month} = event;
-		if (date === this.state.date  && this.state.month === month) {
+		if (_events.length) {
 			this.setState({
-				events: this.state.events.concat([event]),
+				_events: [...this.state._events, ..._events]
 			})
 		}
 	}
-	shouldComponentUpdate = (newProps) => {
-		// let newEvent = _.difference(newProps.events, this.props.events);	 
-		// if (newEvent.date === this.state.date && newEvent.month === this.state.month) {
-		// 	return true;
-		// } else {
-		// 	return  false;
-		// }
-		return true;
-	}
-	componentWillUpdate = (nextProps, nextState) => {
-		// // this.setState({test: true})
-		// console.log(nextProps.events, this.props.events)
-		// let newEvent = _.difference(nextProps.events, this.props.events);
-		// // console.log(newEvent, 'is the new event')
-		// let ev = this.props.events[this.props.events.length - 1]
-		// if (this.props.newEvent.date === this.state.date && this.props.newEvent.month === this.state.month) {
-		// 	this.events = [...this.events, this.props.newEvent];
-		// }
+	componentDidMount = () => {
+		let event = this.props.newEvent;
+		let {date, month} = event;
+		if (date == this.state.date && this.state.month === month) {
+			this.setState({
+				events: [...this.state._events, event],
+			})
+		}
 	}
 
 	handleClick = (event) => {
@@ -66,17 +63,23 @@ export default class DateCell extends Component {
 		event.preventDefault();		
 	}
 	renderEvents = () => {
-		return this.state.events.map((event) => {
+		return this.state._events.map((event) => {
 			return (
-				<div key={uniqueID()}>	
-					{event.name}
+				<div style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
+					<div style={{height: '32px', width: '4px', backgroundColor: colorMap[event.type], 'marginRight': '4px'}}></div>
+					<div className="rc-date-cell-event-info">
+						<span>{event.name === '' ? '(No title)' : event.name}</span> <br/>
+						<span>{event.hour}</span>
+						<span>{event.minute}</span>
+						<span>{event.amPm.toLowerCase()}</span>	
+					</div>				
 				</div>
 			);
 		})
 	}
   render() {
 		const {date, month} = this.props;
-		const {isHovered, displayPopover, showModal} = this.state;
+		const {events} = this.state;
     return (
 			<div 
 				key={uniqueID()} 
@@ -85,9 +88,16 @@ export default class DateCell extends Component {
 				<span className="rc-date-cell-header">
 					{date}
 				</span>
+				<div className="rc-date-cell-events-wrapper">
+					{this.renderEvents()}
+				</div>
+	
+				{/*{this.props.events[this.props.events.length - 1].date === this.state.date && this.props.events[this.props.events.length - 1].month === this.state.month ? 
+					<div>
+					{this.props.events[this.props.events.length - 1].name}
+					</div>
 
-				{this.state.events.length > 0? this.renderEvents(): null}
-				 
+				:null}*/}
 					<div 
 						className="rc-date-add-event"
 						onClick={this.handleClick}

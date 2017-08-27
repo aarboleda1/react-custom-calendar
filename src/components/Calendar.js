@@ -12,9 +12,7 @@ import {
 	daysInMonth, 
 	now
 } from '../utils/utils';
-import MonthRow from './MonthRow';
 import Month from './Month';
-
 export default class Calendar extends Component {
 	static propTypes = {
 		/*props passed to main calendar*/
@@ -64,29 +62,30 @@ export default class Calendar extends Component {
 		this.state = {
 			month: 'August',
 			view: 'Calendar', // change these to be repsective of props
-			daysForMonth: [],
+			weeks: [],
 			year: null,
 			daysThisMonth: 30,
 			dateClicked: null,
 			events: [],
 			newEvent: {},
+			showModal: false,
 		}
 	}
 
-	componentWillMount = () => {		
+	componentWillMount = () => {	
 		const {defaultCalView} = this.props;
 		let date = this.props.date || new Date;
 		let monthInt = defaultCalView ? defaultCalView[1] : date.getMonth() + 1; // gives it back from months 0 - 11
 		let year = defaultCalView ? defaultCalView[0] : moment().year();
-		let daysForMonth = getDaysArray(year, monthInt);
+		let weeks = getDaysArray(year, monthInt);
 		let daysThisMonth = daysInMonth(year, monthInt)
 		this.setState({
-			daysForMonth: daysForMonth,
-			monthInt: monthInt, //  subtract one beca
+			weeks: weeks,
+			monthInt: monthInt, 
 			month: months[monthInt],
 			year: year,
 			daysThisMonth: daysThisMonth,
-			events: [{amPm: "AM", date: "6", hour: 8, minute: "30", month: "January",name: "afwe", type: "Company Events", month: "January"}],
+			events: [{amPm: "AM", date: "6", hour: 8, minute: "30", month: "January", name: "1st event", type: "Company Events", month: "January"}],
 		})
 	}
 	componentDidMount = () => {
@@ -98,9 +97,7 @@ export default class Calendar extends Component {
 			event.preventDefault();
 		}
 	}	
-	componentWillUnmount = () => {
-		// window.removeEventListener('click', this.removeFocus)
-	}
+
 	openModal = (date) => {
 		this.setState({
 			showModal: true,
@@ -112,25 +109,9 @@ export default class Calendar extends Component {
 			return <div key={day} className="rc-header-title">{day}</div>
 		})
 	}
-	renderWeeks = () => {
-		let extraRow = this.state.daysForMonth.length === 6 ? true : false;
-		return this.state.daysForMonth.map((week, index) => {
-			return (
-				<MonthRow 
-					extraRow={extraRow} 
-					week={week} 
-					key={uniqueID()}
-					daysThisMonth={this.state.daysThisMonth}
-					month={this.state.month}
-					openModal={this.openModal}
-					events={this.state.events}
-				/>
-			)
-		})
-	}
 	onNavigate = (e) => {
 		let direction = e.target.dataset.direction
-				,daysForMonth 
+				,weeks 
 				,_month //used to calculate new month and then set the state
 				,_year; 
 		const {monthInt, month, year} = this.state;		
@@ -144,7 +125,7 @@ export default class Calendar extends Component {
 				_month = this.state.monthInt + 1;
 				_year = this.state.year;
 			}
-			daysForMonth = getDaysArray(_year, _month);
+			weeks = getDaysArray(_year, _month);
 		} else if (direction === 'back') {
 			if (this.state.monthInt === 1) {
 				_year = this.state.year - 1;	
@@ -153,26 +134,26 @@ export default class Calendar extends Component {
 				_year = this.state.year;
 				_month = this.state.monthInt - 1;
 			}
-			daysForMonth = getDaysArray(_year, _month);
+			weeks = getDaysArray(_year, _month);
 		} else if (direction === 'today') {
 			let date = new Date;
 			_year = moment().year();
 			_month = date.getMonth() + 1;			
-			daysForMonth = getDaysArray(_year, _month);
+			weeks = getDaysArray(_year, _month);
 		}
 		this.setState({
-			daysForMonth: daysForMonth,
+			weeks: weeks,
 			month: months[_month],
 			monthInt: _month,
 			year: _year,
 		})
+		e.preventDefault();
 	}
 	closeModal = () => {
 		this.setState({
 			showModal: false,
 		})
 	}	
-
 	onAddEvent = (event) => {
 		this.setState({
 			events: [...this.state.events, event],
@@ -182,9 +163,13 @@ export default class Calendar extends Component {
 	}
 	render() {
 		// let Filter = components.filter || Filter;
-		const {month, year, showModal} = this.state;
+		const {
+			month, 
+			year, 
+			showModal, 
+			events
+		} = this.state;
 		const Filter = this.props.elementProps.filter;
-		
 		return(
 			<div className="rc-calendar">
 				{/*{this.props.elementProps.filter && <Filter/>}*/}
@@ -196,7 +181,6 @@ export default class Calendar extends Component {
 					onAddEvent={this.onAddEvent}
 					dateClicked={this.state.dateClicked}
 				/>
-
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
 						{month} {year}
@@ -210,15 +194,13 @@ export default class Calendar extends Component {
 				<div className="rc-month-row-header">
 					{this.renderMonthHeader()}
 				</div>
-        <div className="rc-elastic-month-view-wrapper">				
-					<Month
-						daysForMonth={this.state.daysForMonth}
-						month={this.state.month}
-						openModal={this.openModal}
-						events={this.state.events}
-						newEvent={this.state.newEvent}						
-					/>
-				</div>
+				<Month
+					weeks={this.state.weeks}
+					month={this.state.month}
+					openModal={this.openModal}
+					events={this.state.events}
+					newEvent={this.state.newEvent}						
+				/>
 			</div>
 		)
 	}

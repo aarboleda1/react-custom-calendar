@@ -2,49 +2,58 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {uniqueID} from '../utils/utils';
-import MonthRow from './MonthRow';
-
 import _ from 'lodash';
+
+import Week from './Week';
 
 export default class Month extends Component {
 	static propTypes = {
-		daysForMonth: PropTypes.arrayOf(PropTypes.array),
+		weeks: PropTypes.arrayOf(PropTypes.array),
 		month: PropTypes.string,
 		openModal: PropTypes.func.isRequired,
 		events: PropTypes.arrayOf(PropTypes.object),
 	};
 	static defaultProps = {};
 	constructor(props) {
-		super(props) 
+		super(props)
+		this.state = {
+			events: this.props.events,
+		} 
 	}
 	componentWillReceiveProps = (newProps) => {
-		let newEvent = _.difference(newProps.events, this.props.events);	
-		// console.log(newEvent,' does it make it down!')	
+		if (!_.isEqual(this.props, newProps)) {
+			let newEvent = _.difference(newProps.events, this.props.events);
+			this.setState({
+				events: [...this.state.events, newProps.events[newProps.events.length - 1]],
+			})	
+		}
 	}
+
 	renderWeeks = () => {
-		let extraRow = this.props.daysForMonth.length === 6 ? true : false;
-		return this.props.daysForMonth.map((week, index) => {
-			// console.log(this.props.events, 'are the new evetns, MAP')
+		let extraRow = this.props.weeks.length === 6 ? true : false;
+		return this.props.weeks.map((week, index) => {
 			return (
-				<MonthRow 
+				<Week 
 					extraRow={extraRow} 
 					week={week} 
 					key={uniqueID()}
 					daysThisMonth={this.props.daysThisMonth}
 					month={this.props.month}
 					openModal={this.props.openModal}
-					events={this.props.events}
+					events={this.state.events}
 					newEvent={this.props.newEvent}						
 				/>
 			)
 		})		
 	}
-
 	render() {
-		let extraRow = this.props.daysForMonth.length === 6 ? true : false;		
+		let extraRow = this.props.weeks.length === 6 ? true : false;		
+		
 		return (
-			<div className="rc-month-view">
-				{this.renderWeeks()}
+			<div className="rc-elastic-month-view-wrapper">			
+				<div className="rc-month-view">
+					{this.renderWeeks()}											
+				</div>
 			</div>
 		)
 	}
