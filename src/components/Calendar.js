@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
 import moment from 'moment';
 import Popover from './Popover';
-
+import _ from 'lodash';
 import {daysOfWeek, getDaysArray, uniqueID, months, daysInMonth, now} from '../utils/utils';
 import MonthRow from './MonthRow';
 
@@ -60,9 +60,10 @@ export default class Calendar extends Component {
 			year: null,
 			daysThisMonth: 30,
 			dateClicked: null,
+			events: [],
 		}
-		this.events = [];
 	}
+
 	componentWillMount = () => {		
 		const {defaultCalView} = this.props;
 		let date = this.props.date || new Date;
@@ -88,6 +89,14 @@ export default class Calendar extends Component {
 			event.preventDefault();
 		}
 	}	
+	componentWillUnmount = () => {
+		// window.removeEventListener('click', this.removeFocus)
+	}
+	componentDidUpdate = (prevProps, prevState) => {
+		// console.log(prevState, 'is the prev', this.state, 'is the current!')
+		let diff = _.differenceWith(prevState.events, this.state.events)
+		console.log(diff, 'is the new event!')
+	}
 	openModal = (date) => {
 		this.setState({
 			showModal: true,
@@ -161,23 +170,21 @@ export default class Calendar extends Component {
 	}	
 
 	onAddEvent = (event) => {
-		console.log(event)
-		this.events = this.state.events.concat([event]);
+		let newEvents = this.state.events.concat([event]);
+		// console.log(newEvents)
 		this.setState({
-			events: this.state.events.concat([event]),
+			events: newEvents,
 		})
 		this.closeModal();
-		console.log(this.events)
 	}
 	render() {
 		// let Filter = components.filter || Filter;
 		const {month, year, showModal} = this.state;
+		const Filter = this.props.elementProps.filter;
+		
 		return(
 			<div className="rc-calendar">
-				{/*  Contitional filter toolbar to render
-					{filter && <Filter/>}
-				*/}
-
+				{/*{this.props.elementProps.filter && <Filter/>}*/}
 				<Popover
 					showModal={showModal}
 					closeModal={this.closeModal}

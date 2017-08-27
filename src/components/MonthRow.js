@@ -13,11 +13,11 @@ export default class MonthRow extends Component{
 		events: PropTypes.arrayOf(PropTypes.object)
 	}
 	static defaultProps = {}
-	constructor(props) {
-		super(props);
+	componentWillReceiveProps = (nextProps, nextState) => {
+		console.log(nextProps, nextState,  'are new prosp!')
 	}
-	componentWillReceiveProps = (nextProps) => {
-		console.log(nextProps, 'are next props')
+	componentDidUpdate = () => {
+		console.log('updated?!')
 	}
 	renderDays = () => {
 		const {week, daysThisMonth, events} = this.props; 

@@ -1,0 +1,24 @@
+.rc-filter {
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    height: 100%;
+    width: 200px;
+    padding-right: 10px;
+}
+
+.rc-filter-list-wrapper {
+    border-bottom: 1px solid #eee;
+}
+
+.rc-filter-list-item {
+    display: flex;
+    justify-content: space-between;
+    height: 26px;
+}
+
+.rc-filter-bottom-wrapper {
+    padding-top: 10px;
+    margin: 0 auto;
+}

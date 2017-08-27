@@ -21,13 +21,25 @@ export default class DateCell extends Component {
 		date: this.props.date,
 	}
 	componentWillReceiveProps = (nextProps) => {
-		console.log(nextProps.events,' aefoaiwhef;oaiwhe;!')
+		let event = this.props.events[0];
+		let {date, month} = event;
+		if (date === this.state.date  && this.state.month === month) {
+			this.setState({
+				events: this.state.events.concat([event]),
+			})
+		}
 	}
 	componentDidMount = () => {
-		let modal = document.getElementsByClassName('rc-popup-background show')[0];
-		const context = this;
+		let event = this.props.events[0];
+		let {date, month} = event;
+		if (date === this.state.date  && this.state.month === month) {
+			this.setState({
+				events: this.state.events.concat([event]),
+			})
+		}
 	}
-	componentDidUpdate = () => {
+	componentWillReceiveProps = (nextProps) => {
+		console.log(nextProps, 'are props!?')
 		let event = this.props.events[0];
 		let {date, month} = event;
 		if (date === this.state.date  && this.state.month === month) {

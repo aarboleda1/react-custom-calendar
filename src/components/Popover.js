@@ -110,7 +110,7 @@ export default class Popover extends Component {
 					</div>
 					<div className="rc-popup-block">
 						<span>Name</span>
-						<input type="text" value={this.state.name} name="name" onChange={this.handleChange} />
+						<input type="text" value={this.state.name} name="name" onChange={this.handleChange} autoFocus/>
 					</div>
 					<div className="rc-popup-block-wrapper">
 						<div className="rc-popup-block">

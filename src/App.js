@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
 import Calendar from './components/Calendar';
-import Popover from './components/Popover'; //delete this after testing
+import Filter from './components/Filter';
 import './stylesheets/main.css';
 let now = new Date;
 class App extends Component {
@@ -12,14 +12,17 @@ class App extends Component {
         <Header/>
         <section className="content rc-app-main">
           <div className="rc-container-wrapper">
-            <Calendar
+            {/*<Calendar
 							onChangeView={() => 'hello'}
 							view={'calendar'}
 							date={now}
 							defaultCalView={[2017, 1]}
-						/>
+							elementProps={
+								{filter: Filter}
+							}
+						/>*/}
+						<Filter/>
 
-						<Popover/>
           </div>
         </section>
       </div>
