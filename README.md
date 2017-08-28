@@ -9,7 +9,7 @@
 
 ** To see each component in action run `npm run storybook` **
 
-[__DEMO and Docs__](http://antonarboleda.io/react-custom-calendar/)
+[__DEMO__](http://antonarboleda.io/react-custom-calendar/)
 ## Milestones and Tasks
 
 ## Libraries/Resources used
