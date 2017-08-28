@@ -71,7 +71,6 @@ export default class Calendar extends Component {
 			weeks: [],
 			year: null,
 			daysThisMonth: 30,
-			dateClicked: null,
 			events: [],
 			newEvent: {},
 			showModal: false,
@@ -82,7 +81,9 @@ export default class Calendar extends Component {
 				'Company Events': true,
 				Miscellaneous: true,
 			},
-			snapShots: {}
+			snapShots: {},
+			dateClicked: null,
+			nameClicked: '',
 		}
 	}
 
@@ -113,10 +114,12 @@ export default class Calendar extends Component {
 		}
 	}	
 
-	openModal = (date) => {
+	openModal = (date, name) => {
+		console.log(name, 'is teh name1')
 		this.setState({
 			showModal: true,
 			dateClicked: date,
+			nameClicked: name,
 		})
 	}
 	renderMonthHeader = () => {
@@ -202,7 +205,6 @@ export default class Calendar extends Component {
 			return this.state.filters[event.type];
 		})
 		if (cardName === '') cardName = '(No Title)';
-		console.log(this.state.filters, 'is the filters!')
 		this.setState({
 			view: 'Dashboard',
 			snapShots: {
@@ -228,7 +230,6 @@ export default class Calendar extends Component {
 		});
 	}
 	applyFilters = (filters) => {
-		console.log(filters, 'ARE FILTERS')
 		this.setState({filters: filters});
 	}
 	render() {
@@ -263,7 +264,9 @@ export default class Calendar extends Component {
 					date={20}
 					onAddEvent={this.onAddEvent}
 					dateClicked={this.state.dateClicked}
+					name={this.state.nameClicked}
 				/>
+
 				<SnapshotForm
 					showModal={showSnapShotForm}
 					closeModal={this.closeSnapShotForm}

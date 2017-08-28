@@ -15,7 +15,11 @@ export const months = [
 	'December'
 ];
 export const eventTypes = ['Company Events', 'Holidays', 'Birthdays', 'Miscellaneous'];
-
+export function timesSort(times) {
+	return times.sort(function (a, b) {
+		return new Date('1970/01/01 ' + a) - new Date('1970/01/01 ' + b);
+	});
+}
 
 export function getDaysArray(year, month) {
 	const names = [ 'Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat' ];
@@ -52,13 +56,13 @@ export const colorMap = {
 
 /*Experimental!*/
 export let defaultEvents = [
-	{amPm: "AM", date: "2", hour: 8, minute: "30", month: "August", name: "Work Event", type: "Company Events", },
-	{amPm: "AM", date: "12", hour: 8, minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
-	{amPm: "AM", date: "19", hour: 10, minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
-	{amPm: "AM", date: "10", hour: 10, minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
-	{amPm: "AM", date: "7", hour: 10, minute: "30", month: "August", name: "Xmas in August", type: "Holidays"},
-	{amPm: "AM", date: "28", hour: 10, minute: "30", month: "August", name: "Not my birthday", type: "Birthdays"},
-	
+	{
+		start_amPm: "AM", end_amPm: 'AM', date: "2", start_hour: 8, end_hour: 10, start_minute: "30", end_minute: "30", month: "August", name: "Work Event", type: "Company Events", },
+	{start_amPm: "AM", end_amPm: 'AM', date: "12", start_hour: 8, end_hour: 8, start_minute: "30", end_minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
+	{start_amPm: "AM", end_amPm: 'PM', date: "19", start_hour: 10, end_hour: 8, start_minute: "30", end_minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
+	{start_amPm: "AM", end_amPm: 'PM',date: "10", start_hour: 10, end_hour: 8,start_minute: "30", end_minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
+	{start_amPm: "AM", end_amPm: 'PM', date: "7", start_hour: 10, end_hour: 8,start_minute: "30", end_minute: "30", month: "August", name: "Xmas in August", type: "Holidays"},
+	{start_amPm: "AM", end_amPm: 'PM', date: "28", start_hour: 10, end_hour: 1, start_minute: "30", end_minute: "30", month: "August", name: "Not my birthday", type: "Birthdays"},	
 ]
 
 

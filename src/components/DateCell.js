@@ -58,19 +58,23 @@ export default class DateCell extends Component {
 	}
 
 	handleClick = (event) => {
-		this.props.openModal(this.props.date)
+		this.props.openModal(this.props.date, this.state.name)
 		event.preventDefault();		
 	}
 	renderEvents = () => {
 		return this.state._events.map((event) => {
 			return (
-				<div style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
+				<div onClick={() => this.props.openModal(this.props.date)} style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
 					<div style={{height: '32px', width: '4px', backgroundColor: colorMap[event.type], 'marginRight': '4px'}}></div>
 					<div className="rc-date-cell-event-info">
 						<span>{event.name === '' ? '(No title)' : event.name}</span> <br/>
-						<span>{event.hour}</span>
-						<span>{event.minute}</span>
-						<span>{event.amPm.toLowerCase()}</span>	
+						<span>{event.start_hour}</span>:
+						<span>{event.start_minute}</span>
+						<span>{event.start_amPm.toLowerCase()}</span>
+						<span>to</span>
+						<span>{event.end_hour}</span>:
+						<span>{event.end_minute}</span>
+						<span>{event.end_amPm.toLowerCase()}</span>							
 					</div>				
 				</div>
 			);
@@ -90,21 +94,14 @@ export default class DateCell extends Component {
 				<div className="rc-date-cell-events-wrapper">
 					{this.renderEvents()}
 				</div>
-	
-				{/*{this.props.events[this.props.events.length - 1].date === this.state.date && this.props.events[this.props.events.length - 1].month === this.state.month ? 
-					<div>
-					{this.props.events[this.props.events.length - 1].name}
-					</div>
-
-				:null}*/}
-					<div 
-						className="rc-date-add-event"
-						onClick={this.handleClick}
-					>
-						<span className="rc-span-add">
-						+
-						</span>
-					</div>
+				<div 
+					className="rc-date-add-event"
+					onClick={this.handleClick}
+				>
+					<span className="rc-span-add">
+					+
+					</span>
+				</div>
 								 			
 			</div>
     )

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {uniqueID, months, eventTypes} from '../utils/utils';
 import Modal from './Modal';
-export default class Popover extends Component {
+export default class EventForm extends Component {
 	static PropTypes = {
 		daysThisMonth: PropTypes.number,
 		showModal: PropTypes.bool,
@@ -15,13 +15,16 @@ export default class Popover extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			name: '',
+			name: this.props.name,
 			month: this.props.month, // default this to props
 			date: this.props.date,
 			type: 'Company Events',
-			hour: 8,
-			minute: '30',
-			amPm: 'AM',
+			start_hour: 8,
+			start_minute: '30',
+			start_amPm: 'AM',
+			end_hour: '9',
+			end_minute: '30',
+			end_amPM: 'AM'
 		}
 	}
 	handleChange = (event) => {
@@ -130,44 +133,45 @@ export default class Popover extends Component {
 					<div className="rc-popup-block-wrapper">
 						<div className="rc-popup-block">
 							<span>Hour</span>
-							<select value={this.state.hour} name="hour" onChange={this.handleChange}>
+							<select value={this.state.start_hour} name="start_hour" onChange={this.handleChange}>
 								{this.renderHours()}
 							</select>
 						</div>
 						<div className="rc-popup-block">
 							<span>Minute</span>
 							<select 
-								name="minute" 
-								value={this.state.minute} 
+								name="start_minute" 
+								value={this.state.start_minute} 
 								onChange={this.handleChange} 								
 							>
 								{this.renderMinutes()}
 							</select>
 						</div>
 						<div className="rc-popup-block">										
-							<select name="amPm" onChange={this.handleChange} value={this.state.amPm}>
+							<select name="start_amPm" onChange={this.handleChange} value={this.state.start_amPm}>
 								<option>{'AM'}</option>
 								<option>{'PM'}</option>							
 							</select>
 						</div>	
+						<span style={{width: '10px', textAlign: 'center'}}> to </span>
 						<div className="rc-popup-block">
 							<span>Hour</span>
-							<select value={this.state.hour} name="hour" onChange={this.handleChange}>
+							<select value={this.state.end_hour} name="end_hour" onChange={this.handleChange}>
 								{this.renderHours()}
 							</select>
 						</div>
 					<div className="rc-popup-block">
 						<span>Minute</span>
 						<select 
-							name="minute" 
-							value={this.state.minute} 
+							name="end_minute" 
+							value={this.state.end_minute} 
 							onChange={this.handleChange} 								
 						>
 							{this.renderMinutes()}
 						</select>
 					</div>
 					<div className="rc-popup-block">										
-						<select name="amPm" onChange={this.handleChange} value={this.state.amPm}>
+						<select name="end_amPm" onChange={this.handleChange} value={this.state.end_amPm}>
 							<option>{'AM'}</option>
 							<option>{'PM'}</option>							
 						</select>

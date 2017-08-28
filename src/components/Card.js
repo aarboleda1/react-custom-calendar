@@ -31,7 +31,7 @@ export default class Card extends Component {
 						{event.month} {event.date}
 					</div>
 					<div className="rc-event-time">
-						{event.hour}{event.minute}
+						{event.hour}:{event.minute}{event}
 					</div>					
 				</div>
 		  )
