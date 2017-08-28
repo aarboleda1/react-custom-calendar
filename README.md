@@ -1,5 +1,4 @@
 # React-Custom-Calendar
-## Todo Create Events today and save them and take snapshot
 
 ## Installation
 1. Open new terminal window
