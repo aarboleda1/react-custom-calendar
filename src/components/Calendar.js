@@ -113,9 +113,7 @@ export default class Calendar extends Component {
 			event.preventDefault();
 		}
 	}	
-
 	openModal = (date, name) => {
-		console.log(name, 'is teh name1')
 		this.setState({
 			showModal: true,
 			dateClicked: date,

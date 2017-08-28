@@ -24,7 +24,7 @@ export default class EventForm extends Component {
 			start_amPm: 'AM',
 			end_hour: '9',
 			end_minute: '30',
-			end_amPM: 'AM'
+			end_amPm: 'AM'
 		}
 	}
 	handleChange = (event) => {
@@ -73,15 +73,22 @@ export default class EventForm extends Component {
 		})
 	}
 	componentWillReceiveProps = (nextProps) => {
+		
 		if (nextProps.month !== this.state.month) {
 			this.setState({
 				month: nextProps.month,
 			})
-		} else if (nextProps.dateClicked !== this.state.date) {
+		} else if (nextProps.dateClicked !== this.state.date && nextProps.name === '') {
+				this.setState({
+					date: nextProps.dateClicked,
+					name: '',
+				})	
+		} else if (nextProps.dateClicked !== this.state.date || nextProps.name !== this.state.name) {
 			this.setState({
 				date: nextProps.dateClicked,
+				name: nextProps.name,
 			})			
-		}
+		} 
 	}
 	
 	render() {
