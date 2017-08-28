@@ -12,7 +12,7 @@
 ## Milestones and Tasks
 
 ## Libraries/Resources used
-- ** React**
+- ** React **
 - **_lodash_** 
 
 ## Folder Directory Guideline
