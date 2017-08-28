@@ -20,17 +20,25 @@
 }
 
 .rc-popup {
-    height: 320px;
+    height: 346px;
     width: 380px;
     min-width: 200px;
     background: white;
     font-size: small;
-    padding: 10px;
     margin: auto;
     border-radius: 2px;
-    // &.rc-snapshot-popup {
-    //     height: 215px;
-    // }
+    &.rc-snapshot-popup {
+        height: 246px;
+        width: 416px;
+        >.rc-popup-snapshot-header {}
+    }
+    .rc-popup-header {
+        margin: 12px 17px;
+        padding-top: 20px;
+    }
+    .rc-popup-body {
+        margin: 12px 17px;
+    }
     .rc-popup-block-wrapper {
         display: flex;
         flex-direction: row;
@@ -39,11 +47,17 @@
         font-size: large;
     }
     >.rc-popup-footer {
+        display: -ms-flexbox;
         display: flex;
+        -ms-flex-direction: row;
         flex-direction: row;
+        -ms-flex-pack: justify;
         justify-content: space-between;
         background: #eee;
-        padding: 10px 3px;
+        padding: 11px 22px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
     }
 }
 
@@ -51,5 +65,29 @@
     display: flex;
     flex-direction: column;
     height: 42px;
-    margin: 0px 5px;
+    margin: 6px 0px;
+    &.time {
+        margin: 6px 4px;
+    }
+    &.am-pm {
+        margin-top: 26px;
+    }
+    &.to {
+        width: 23px;
+        margin-top: 31px;
+        text-align: center;
+    }
+    >span {
+        margin: 2px;
+    }
+}
+
+.rc-modal-title {
+    font-size: medium;
+    font-weight: 400;
+}
+
+input[type=text] {
+    height: 28px;
+    border-radius: 1px;
 }

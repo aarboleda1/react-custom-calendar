@@ -21,12 +21,20 @@ export default class Filter extends Component {
 	renderFilterOptions = () => {
 		return eventTypes.map((option) => {
 			let color;
+
 			this.props.filters[option] ? color = colorMap[option] : color = 'white';
+			let spanStyle = {
+				background: colorMap[option],
+				height: '88%',
+				width: '6px',
+			}
 			return(
 				<div 
 					onClick={this.handleInputChange}
 					name={option}
-					key={option} className="rc-filter-list-item">
+					key={option} className="rc-filter-list-item"
+				>
+				<span style={spanStyle}></span>
 					{option}
 					<span accessKey={option} className="rc-check-square" style={{backgroundColor: color}}></span>
 				</div>
@@ -37,7 +45,7 @@ export default class Filter extends Component {
 		const {openModal} = this.props;
     return (
 			<div className="rc-filter">
-				<span>Show</span>
+				<span className="rc-title-secondary">Show</span>
 				<div className="rc-filter-list-wrapper">
 					{this.renderFilterOptions()}
 				</div>

@@ -36,10 +36,10 @@ export default class EventForm extends Component {
 		event.preventDefault();
 	}
 	handleSave = () => {
-		this.props.onAddEvent(this.state);
 		this.setState({
 			name: ''
 		}) 
+		this.props.onAddEvent(this.state);
 	}
 	renderMonths = () => {
 		let monthCopy = months.slice();
@@ -100,51 +100,49 @@ export default class EventForm extends Component {
 		return(
 			<Modal showModal={this.props.showModal}>
 				<div className="rc-popup">
-					<i onClick={closeModal} style={{right: '0', position: 'absolute'}} className="material-icons clear">clear</i>
-					<div className="rc-popup-title">
-						<span>Event</span>
+					<div onClick={closeModal}className="rc-popup-header">
+						<i style={{right: '0', position: 'absolute', cursor: 'pointer'}} className="material-icons clear">clear</i>
+						<div className="rc-popup-title">
+							<span className="rc-modal-title">Event</span>
+						</div>
+						<span>
+							Event your event information here
+						</span>
 					</div>
-					<span>
-						Event your event information here
-					</span>
-					
 					{/*Body*/}
+				<div className="rc-popup-body">
 					<div className="rc-popup-block">
 						<span>Event type</span>
 						<select value={this.state.type} name="type" onChange={this.handleChange}>
 							{this.renderEventTypes()}
 						</select>
-					</div>
-					
+					</div>					
 					<div className="rc-popup-block">
 						<span>Name</span>
 						<input type="text" value={this.state.name} name="name" onChange={this.handleChange} autoFocus/>
-					</div>
-				
+					</div>				
 					<div className="rc-popup-block-wrapper">
-						<div className="rc-popup-block">
+						<div className="rc-popup-block time">
 							<span>Month</span>
 							<select value={this.state.month} name="month" onChange={this.handleChange}>
 								{this.renderMonths()}
 							</select>
 						</div>
-	
 						<div className="rc-popup-block">
 							<span>Date</span>
 							<select value={this.state.date === null ? '' : this.state.date} name="date" onChange={this.handleChange}>
 								{this.renderDates()}
 							</select>
 						</div>	
-					</div>	
-					
+					</div>						
 					<div className="rc-popup-block-wrapper">
-						<div className="rc-popup-block">
+						<div className="rc-popup-block time">
 							<span>Hour</span>
 							<select value={this.state.start_hour} name="start_hour" onChange={this.handleChange}>
 								{this.renderHours()}
 							</select>
 						</div>
-						<div className="rc-popup-block">
+						<div className="rc-popup-block time">
 							<span>Minute</span>
 							<select 
 								name="start_minute" 
@@ -154,40 +152,41 @@ export default class EventForm extends Component {
 								{this.renderMinutes()}
 							</select>
 						</div>
-						<div className="rc-popup-block">										
+						<div className="rc-popup-block am-pm">										
 							<select name="start_amPm" onChange={this.handleChange} value={this.state.start_amPm}>
 								<option>{'AM'}</option>
 								<option>{'PM'}</option>							
 							</select>
 						</div>	
-						<span style={{width: '10px', textAlign: 'center'}}> to </span>
-						<div className="rc-popup-block">
+						<span className="rc-popup-block to"> to </span>
+						<div className="rc-popup-block time">
 							<span>Hour</span>
 							<select value={this.state.end_hour} name="end_hour" onChange={this.handleChange}>
 								{this.renderHours()}
 							</select>
 						</div>
-					<div className="rc-popup-block">
-						<span>Minute</span>
-						<select 
-							name="end_minute" 
-							value={this.state.end_minute} 
-							onChange={this.handleChange} 								
-						>
-							{this.renderMinutes()}
-						</select>
+						<div className="rc-popup-block time">
+							<span>Minute</span>
+							<select 
+								name="end_minute" 
+								value={this.state.end_minute} 
+								onChange={this.handleChange} 								
+							>
+								{this.renderMinutes()}
+							</select>
+						</div>
+						<div className="rc-popup-block am-pm">										
+							<select name="end_amPm" onChange={this.handleChange} value={this.state.end_amPm}>
+								<option>{'AM'}</option>
+								<option>{'PM'}</option>							
+							</select>
+						</div>																
 					</div>
-					<div className="rc-popup-block">										
-						<select name="end_amPm" onChange={this.handleChange} value={this.state.end_amPm}>
-							<option>{'AM'}</option>
-							<option>{'PM'}</option>							
-						</select>
-					</div>																
-					</div>
+				</div>
 					{/*Footer*/}					
 					<div className="rc-popup-footer">
-						<button className="rc-button" onClick={closeModal}> x Cancel </button>
-						<button className="rc-button-primary" onClick={this.handleSave}>Save</button>
+						<button className="rc-button cancel" onClick={closeModal}> x Cancel </button>
+						<button className="rc-button-primary add" onClick={this.handleSave}>Save</button>
 					</div>
 				</div>
 			</Modal>

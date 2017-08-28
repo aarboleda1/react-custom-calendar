@@ -28,18 +28,22 @@ export default class SnapshotForm extends Component {
 		return(
 			<Modal showModal={showModal}>
 				<div className="rc-popup rc-snapshot-popup">
+					<div className="rc-popup-header">
 		      <div style={{float: 'right'}}>x</div>				
-				  <div onClick={closeModal} className="rc-popup-title">
-					  <span>Give this calendar a snapshot name</span>
+						<div onClick={closeModal} className="rc-popup-title">
+							<span className="rc-modal-title">Give this calendar a snapshot name</span>
+						</div>
+						<span>The name will show up in the dashboard for each snapshot card</span>
+						</div>
+					<div className="rc-popup-body">
+						<form>
+							<label>Name</label> <br/>
+							<input type="text" onChange={this.handleChange} value={this.state.cardName}/>
+						</form>				
 					</div>
-					<span>The name will show up in the dashboard for each snapshot card</span>
-					<form>
-						<label>Name</label> <br/>
-						<input type="text" onChange={this.handleChange} value={this.state.cardName}/>
-					</form>				
 					<div className="rc-popup-footer">
-						<button onClick={closeModal}>x Cancel</button>
-						<button  className="rc-button-primary" onClick={this.handleClick}>Add</button>
+						<button className="rc-button cancel" onClick={closeModal}>x Cancel</button>
+						<button  className="rc-button-primary add" onClick={this.handleClick}>Add</button>
 					</div>
 				</div>
 			</Modal>
