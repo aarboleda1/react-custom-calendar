@@ -4,7 +4,7 @@
     position: relative;
     background: white;
     width: 300px;
-    height: 240px;
+    max-height: 350px;
     border-radius: 2px;
     >.rc-card-footer,
     .rc-card-header {
@@ -32,6 +32,7 @@
     height: 32px;
     >.rc-event-title {
         width: 55%;
+        padding-left: 13px;
     }
     >.rc-event-date {
         display: flex;
@@ -39,6 +40,6 @@
         width: 30%;
     }
     >.rc-event-time {
-        width: 15%;
+        width: 35%;
     }
 }

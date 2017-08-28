@@ -74,7 +74,7 @@ export default class DateCell extends Component {
 						<span>{event.start_hour}</span>:
 						<span>{event.start_minute}</span>
 						<span>{event.start_amPm.toLowerCase()}</span>
-						<span>to</span>
+						<span>{' ' + 'to' + ' '}</span>
 						<span>{event.end_hour}</span>:
 						<span>{event.end_minute}</span>
 						<span>{event.end_amPm.toLowerCase()}</span>							

@@ -17,13 +17,20 @@ class App extends Component {
 		super()
 		this.state = {
 			view: 'Calendar',
+			onChangeView: null,
 		}
 	}
 	changeView = () => {
-		let view = this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar';
+		console.log('hello!')
 		this.setState({
-			view: view,
-		}) 
+			view: this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar',
+		})		
+	}
+
+	componentDidMount = () => {
+		this.setState({
+			onChangeView: this.calendar.onChangeView,
+		})
 	}
   render() {
     return (
@@ -32,7 +39,8 @@ class App extends Component {
         <section className="content rc-app-main">
           <div className="rc-container-wrapper">
 						<Calendar
-							onChangeView={this.changeView}
+							ref={(el) => this.calendar = el}
+							onChangeView={this.state.onChangeView}
 							view={this.state.view}
 							date={now}
 							defaultCalView={[2017, 8]}

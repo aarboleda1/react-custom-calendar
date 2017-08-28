@@ -67,7 +67,7 @@ export default class Calendar extends Component {
 		super(props)
 		this.state = {
 			month: 'August',
-			view: props.view || 'Calendar', // change these to be repsective of props
+			view: this.props.view,
 			weeks: [],
 			year: null,
 			daysThisMonth: 30,
@@ -237,6 +237,7 @@ export default class Calendar extends Component {
 		this.closeSnapShotForm();
 	}
 	onChangeView = () => {
+		console.log('called inside hre?')
 		let view = this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar';
 		this.setState({
 			view: view
@@ -285,7 +286,6 @@ export default class Calendar extends Component {
 					dateClicked={this.state.dateClicked}
 					name={this.state.nameClicked}
 				/>
-
 				<SnapshotForm
 					showModal={showSnapShotForm}
 					closeModal={this.closeSnapShotForm}

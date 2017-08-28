@@ -27,11 +27,11 @@ export default class Card extends Component {
 					<div className="rc-event-title">
 						{event.name}
 					</div>
-					<div className="rc-event-date">
+					<div className="rc-event-date" style={{fontSize: 'xx-small'}}>
 						{event.month} {event.date}
 					</div>
-					<div className="rc-event-time">
-						{event.start_hour}:{event.start_minute}{event.start_amPm}to 
+					<div className="rc-event-time" style={{fontSize: 'xx-small'}}>
+						{event.start_hour}:{event.start_minute}{event.start_amPm}{' to '} {event.end_hour}:{event.end_minute}{event.end_amPm}
 					</div>					
 				</div>
 		  )
