@@ -90,7 +90,7 @@ export default class Popover extends Component {
 		return(
 			<Modal showModal={this.props.showModal}>
 				<div className="rc-popup">
-					<div onClick={closeModal} style={{float: 'right'}}>x</div>
+					<span onClick={closeModal} style={{float: 'right'}}>x</span>
 					<div className="rc-popup-title">
 						<span>Event</span>
 					</div>

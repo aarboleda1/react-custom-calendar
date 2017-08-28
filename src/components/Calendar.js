@@ -46,10 +46,14 @@ export default class Calendar extends Component {
 
 		components: PropTypes.shape({
 			filter: elementType,
+			dashboard: elementType,
 			/*allow use to pass in any special type of date*/
 		}),
 		/* Default CalendarView [year, month] year: 2017, month: 7*/
-		defaultCalView: PropTypes.array		
+		defaultCalView: PropTypes.array,
+		/* Allows changing of view to the optional dashbaord view. only works if a dashboard view is passed in */
+		onChangeView: PropTypes.func
+
 	}
 	static defaultProps = {
 		elementProps: {},
@@ -57,13 +61,13 @@ export default class Calendar extends Component {
 		components: {
 			filter: null,
 		},
-		view: 'calendar',
+		view: 'Calendar',
 	}
 	constructor (props) {
 		super(props)
 		this.state = {
 			month: 'August',
-			view: 'Calendar', // change these to be repsective of props
+			view: props.view || 'Calendar', // change these to be repsective of props
 			weeks: [],
 			year: null,
 			daysThisMonth: 30,
@@ -77,7 +81,8 @@ export default class Calendar extends Component {
 				Holidays: true,
 				'Company Events': true,
 				Miscellaneous: true,
-			}
+			},
+			snapShots: {}
 		}
 	}
 
@@ -102,6 +107,7 @@ export default class Calendar extends Component {
 		window.onclick = function(event) {
 			if(event.target.className === 'rc-popup-background show') {
 				context.closeModal();
+				context.closeSnapShotForm();
 			} 
 			event.preventDefault();
 		}
@@ -176,6 +182,7 @@ export default class Calendar extends Component {
 		this.closeModal();
 	}
 	handleSelect = (filter) => {
+		console.log('hello')
 		this.setState((previousState, currentProps) => {
 			return {
 				...previousState,
@@ -187,12 +194,36 @@ export default class Calendar extends Component {
 		});
 	}
 	openSnapShotForm = () => {
+		console.log('clicked?')
 		this.setState({
 			showSnapShotForm: !this.state.showSnapShotForm
 		})
 	}
+	onAddToDashboard = (cardName) => {
+		let filtered = this.state.events.filter((event) => {
+			return this.state.filters[event.type];
+		})
+		this.setState({
+			view: 'Dashboard',
+			snapShots: {
+				...this.state.snapShots,
+				[cardName]: filtered,
+			}
+		})
+		this.closeSnapShotForm();
+	}
+	onChangeView = () => {
+		let view = this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar';
+		this.setState({
+			view: view
+		})
+	}
 	render() {
 		// let Filter = this.props.components.filter || Filter;
+		const  {
+			onChangeView,
+			elementProps,
+		} = this.props;
 		const {
 			month, 
 			year, 
@@ -201,18 +232,18 @@ export default class Calendar extends Component {
 			showSnapShotForm,
 			filters,
 		} = this.state;
-		const Filter = this.props.elementProps.filter;
+		const Filter = elementProps.filter;
+		const Dashboard = elementProps.dashboard;
 		return(
-		<div className="rc-grid-container">
-			{
-				this.props.elementProps.filter && 
-					<Filter 
-						filters={this.state.filters} 
-						handleSelect={this.handleSelect}
-						openModal={this.openSnapShotForm}
-					/>
-			}
-			<div className="rc-calendar">
+			<div className="rc-grid-container">
+				{
+					this.props.elementProps.filter && this.state.view === 'Calendar' &&
+						<Filter 
+							filters={this.state.filters} 
+							handleSelect={this.handleSelect}
+							openModal={this.openSnapShotForm}
+						/>
+				}
 				<EventForm
 					showModal={showModal}
 					closeModal={this.closeModal}
@@ -225,29 +256,38 @@ export default class Calendar extends Component {
 					showModal={showSnapShotForm}
 					closeModal={this.closeSnapShotForm}
 					filters={filters}
+					onAddToDashboard={this.onAddToDashboard}
 				/>
-				<div className="rc-calendar-toolbar">
-					<span className="rc-toolbar-label">
-						{month} {year}
-					</span>
-					<span className="rc-button-group">
-             <button className="rc-button" data-direction="back" onClick={this.onNavigate}>{'<'}</button>
-						 <button className="rc-button" data-direction="today" onClick={this.onNavigate}>Today</button>
-						 <button className="rc-button" data-direction="forward" onClick={this.onNavigate}>{'>'}</button>
-					</span>
-				</div>
-				<div className="rc-month-row-header">
-					{this.renderMonthHeader()}
-				</div>
-				<Month
-					weeks={this.state.weeks}
-					month={this.state.month}
-					openModal={this.openModal}
-					events={this.state.events}
-					newEvent={this.state.newEvent}
-					filters={this.state.filters}
-				/>
-			</div>
+
+				{this.state.view  === 'Calendar' ? <div className="rc-calendar">					
+					<div className="rc-calendar-toolbar">
+						<span className="rc-toolbar-label">
+							{month} {year}
+						</span>
+						<span className="rc-button-group">
+							<button className="rc-button" data-direction="back" onClick={this.onNavigate}>{'<'}</button>
+							<button className="rc-button" data-direction="today" onClick={this.onNavigate}>Today</button>
+							<button className="rc-button" data-direction="forward" onClick={this.onNavigate}>{'>'}</button>
+						</span>
+					</div>
+
+					<div className="rc-month-row-header">
+						{this.renderMonthHeader()}
+					</div>
+					<Month
+						weeks={this.state.weeks}
+						month={this.state.month}
+						openModal={this.openModal}
+						events={this.state.events}
+						newEvent={this.state.newEvent}
+						filters={this.state.filters}
+					/>			
+					</div> :
+					<Dashboard
+						snapShots={this.state.snapShots}
+						onChangeView={this.onChangeView}
+					/>
+			}
 			</div>
 		)
 	}

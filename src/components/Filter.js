@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const options = ['Birthdays', 'Holidays', 'Company Events', 'Miscellaneous'];
+import {uniqueID, colorMap, eventTypes} from '../utils/utils';
 
 export default class Filter extends Component {
 	static propTypes = {
@@ -10,36 +10,26 @@ export default class Filter extends Component {
 	static defaultProps = {};
 	constructor(props) {
 		super(props)
-		this.state = {	
-			Birthdays: true,
-			Holidays: true,
-			'Company Events': true,
-			Miscellaneous: true,			
-		}
 	}
 	handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
+		event.preventDefault();
+		const target = event.target
+		console.dir(event.target);
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.accessKey;
 		this.props.handleSelect(name);
-    // this.setState({
-    //   [name]: !this.state[name],
-		// });
 	}
 	renderFilterOptions = () => {
-		let isChecked
-		return options.map((option) => {
+		return eventTypes.map((option) => {
+			let color;
+			this.props.filters[option] ? color = colorMap[option] : color = 'white';
 			return(
-				<div key={option} className="rc-filter-list-item">
+				<div 
+					onClick={this.handleInputChange}
+					name={option}
+					key={option} className="rc-filter-list-item">
 					{option}
-					<input 
-						className="rc-checkbox" 
-						name={option} 
-						type="checkbox"
-						onChange={this.handleInputChange}
-						checked={this.props.filters[option]}
-						// ref={(input) => this[option] = input}
-					/>
+					<span accessKey={option} className="rc-check-square" style={{backgroundColor: color}}></span>
 				</div>
 			)
 		})

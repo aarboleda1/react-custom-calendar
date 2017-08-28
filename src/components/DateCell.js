@@ -1,16 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {uniqueID} from '../utils/utils';
+import {uniqueID, colorMap} from '../utils/utils';
 import EventForm from './EventForm';
 import  _ from 'lodash';
 
-const colorMap = {
-	'Birthdays': '#AB47BC',
-	'Holidays': '#FFCA28',
-	'Company Events': 'green',
-	'Miscellaneous': '#00BFA5',
-}
 
 export default class DateCell extends Component {
 	static PropTypes = {

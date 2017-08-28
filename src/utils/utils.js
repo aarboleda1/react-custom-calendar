@@ -14,7 +14,8 @@ export const months = [
 	'November',
 	'December'
 ];
-export const eventTypes = ['Company Events', 'Holidays', 'Company Events', 'Miscellaneous'];
+export const eventTypes = ['Company Events', 'Holidays', 'Birthdays', 'Miscellaneous'];
+
 
 export function getDaysArray(year, month) {
 	const names = [ 'Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat' ];
@@ -42,6 +43,12 @@ export function daysInMonth(month,year) {
 
 export let now = new Date();
 
+export const colorMap = {
+	'Birthdays': '#AB47BC',
+	'Holidays': '#FFCA28',
+	'Company Events': 'green',
+	'Miscellaneous': '#00BFA5',
+}
 
 /*Experimental!*/
 export let defaultEvents = [
@@ -49,7 +56,6 @@ export let defaultEvents = [
 	{amPm: "AM", date: "12", hour: 8, minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
 	{amPm: "AM", date: "19", hour: 10, minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
 	{amPm: "AM", date: "10", hour: 10, minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
-	
-
-	
 ]
+
+

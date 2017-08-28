@@ -1,10 +1,10 @@
 import React from 'react';
 // import { App } from '../../src';
-import Popover from '../../src/components/Popover';
+import Modal from '../../src/components/Modal';
 import '../../src/stylesheets/main.css';
 function onAddEvent() {
 	alert('event added!')
 }
-const Modal = () => <Popover onAddEvent={onAddEvent} showModal={true}/>;
+const ModalEx = () => <Modal onAddEvent={onAddEvent} showModal={true}/>;
 
-export default Modal;
+export default ModalEx;

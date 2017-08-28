@@ -9,17 +9,22 @@ export default class SnapshotForm extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			value: ''
+			cardName: ''
 		}
 	}
 	handleChange = (event) => {
-		console.log(event.target.value)
 		this.setState({
-			value: event.target.value
+			cardName: event.target.value
+		})
+	}
+	handleClick = () => {
+		this.props.onAddToDashboard(this.state.cardName);
+		this.setState({
+			cardName: '',
 		})
 	}
 	render() {
-		const {showModal, closeModal} = this.props;
+		const {showModal, closeModal, onAddToDashboard} = this.props;
 		return(
 			<Modal showModal={showModal}>
 				<div className="rc-popup rc-snapshot-popup">
@@ -30,11 +35,11 @@ export default class SnapshotForm extends Component {
 					<span>The name will show up in the dashboard for each snapshot card</span>
 					<form>
 						<label>Name</label> <br/>
-						<input type="test" onChange={this.handleChange} value={this.state.value}/>
+						<input type="text" onChange={this.handleChange} value={this.state.cardName}/>
 					</form>				
 					<div className="rc-popup-footer">
 						<button onClick={closeModal}>x Cancel</button>
-						<button  className="rc-button-primary">Add</button>
+						<button  className="rc-button-primary" onClick={this.handleClick}>Add</button>
 					</div>
 				</div>
 			</Modal>

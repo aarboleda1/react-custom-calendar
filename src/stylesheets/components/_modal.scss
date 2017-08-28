@@ -21,12 +21,16 @@
 
 .rc-popup {
     height: 270px;
-    width: 30%;
+    width: 300px;
+    min-width: 200px;
     background: white;
     font-size: small;
     padding: 10px;
     margin: auto;
     border-radius: 2px;
+    // &.rc-snapshot-popup {
+    //     height: 215px;
+    // }
     .rc-popup-block-wrapper {
         display: flex;
         flex-direction: row;
