@@ -21,7 +21,6 @@ class App extends Component {
 		}
 	}
 	changeView = () => {
-		console.log('hello!')
 		this.setState({
 			view: this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar',
 		})		

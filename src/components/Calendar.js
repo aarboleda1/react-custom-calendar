@@ -180,14 +180,10 @@ export default class Calendar extends Component {
 		})
 	}
 	onAddEvent = (event) => {
-		console.log(this.state.editingExisting)
 		let events;
-		console.log(event.key)
 		if (this.state.editingExisting) {
 			events = this.state.events.map((_event) => {
-				console.log(_event.key)
 				if (_event.key === event.key) {
-					console.log(_event, 'is teh event!')
 					return event;
 				} else {
 					return _event;
@@ -237,7 +233,6 @@ export default class Calendar extends Component {
 		this.closeSnapShotForm();
 	}
 	onChangeView = () => {
-		console.log('called inside hre?')
 		let view = this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar';
 		this.setState({
 			view: view
@@ -270,7 +265,7 @@ export default class Calendar extends Component {
 		return(
 			<div className="rc-grid-container">
 				{
-					this.props.elementProps.filter && this.state.view === 'Calendar' &&
+					this.props.elementProps.filter && this.props.view === 'Calendar' &&
 						<Filter 
 							filters={this.state.filters} 
 							handleSelect={this.handleSelect}
@@ -293,7 +288,7 @@ export default class Calendar extends Component {
 					onAddToDashboard={this.onAddToDashboard}
 				/>
 
-				{this.state.view  === 'Calendar' ? <div className="rc-calendar">					
+				{this.props.view  === 'Calendar' ? <div className="rc-calendar">					
 					<div className="rc-calendar-toolbar">
 						<span className="rc-toolbar-label">
 							{month} {year}

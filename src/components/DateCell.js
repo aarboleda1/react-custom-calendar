@@ -91,7 +91,7 @@ export default class DateCell extends Component {
 				key={uniqueID()} 
 				className="rc-date-cell"
 			>
-				<span className="rc-date-cell-header">
+				<span className="rc-date-cell-header" style={{marginLeft: '3px'}}>
 					{date}
 				</span>
 				<div className="rc-date-cell-events-wrapper">
