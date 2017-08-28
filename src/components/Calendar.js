@@ -182,7 +182,6 @@ export default class Calendar extends Component {
 		this.closeModal();
 	}
 	handleSelect = (filter) => {
-		console.log('hello')
 		this.setState((previousState, currentProps) => {
 			return {
 				...previousState,
@@ -194,7 +193,6 @@ export default class Calendar extends Component {
 		});
 	}
 	openSnapShotForm = () => {
-		console.log('clicked?')
 		this.setState({
 			showSnapShotForm: !this.state.showSnapShotForm
 		})
@@ -203,6 +201,7 @@ export default class Calendar extends Component {
 		let filtered = this.state.events.filter((event) => {
 			return this.state.filters[event.type];
 		})
+		if (cardName === '') cardName = '(No Title)';
 		this.setState({
 			view: 'Dashboard',
 			snapShots: {
@@ -218,8 +217,13 @@ export default class Calendar extends Component {
 			view: view
 		})
 	}
+	deleteCard = (cardName) => {
+		let newSnapShots = _.omit(this.state.snapShots, [cardName]);
+		this.setState({
+			snapShots: newSnapShots
+		})
+	}
 	render() {
-		// let Filter = this.props.components.filter || Filter;
 		const  {
 			onChangeView,
 			elementProps,
@@ -286,6 +290,7 @@ export default class Calendar extends Component {
 					<Dashboard
 						snapShots={this.state.snapShots}
 						onChangeView={this.onChangeView}
+						deleteCard={this.deleteCard}
 					/>
 			}
 			</div>

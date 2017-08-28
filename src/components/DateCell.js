@@ -22,7 +22,6 @@ export default class DateCell extends Component {
 			_events: [],
 			_eventNames:{}
 		}		
-		// console.log(this.props.filters)
 	}
 
 	componentWillMount = () => {

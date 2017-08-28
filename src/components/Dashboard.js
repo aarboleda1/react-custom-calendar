@@ -10,6 +10,8 @@ import {
 export default class Dashboard extends Component {
 	static propTypes = {
 		onChangeView: PropTypes.func,
+		snapShots: PropTypes.object,
+		deleteCard: PropTypes.func,
 	}
 	constructor(props) {
 		super(props)
@@ -18,35 +20,25 @@ export default class Dashboard extends Component {
 		localStorage.setItem('dashboard_events', this.props.snapShots)
 	}
 	renderCards = () => {
-		const {snapShots, onChangeView} = this.props;
+		const {snapShots, onChangeView, deleteCard} = this.props;
 		let titles = Object.keys(snapShots);
 		return titles.map((title) => {
-			let eventsArray = snapShots[title] //all events associated with snapshot
 			return (
 				<Card
-					key={uniqueID()}
-					events={eventsArray}
-					onChangeView={onChangeView}
 					title={title}
+					events={snapShots[title]}
+					onChangeView={onChangeView}				
+					key={uniqueID()}
+					deleteCard={deleteCard}	
 				/>
 			)
-		})
+		})	
 	}
 	render() {
+
 		return (
-			<div className="rc-dashboard">
-				<Card
-					events={defaultEvents}
-					onChangeView={this.props.onChangeView}
-					title={'TEst!!!'}
-				/>	
-				<Card
-				key={uniqueID()}
-				events={defaultEvents}
-				onChangeView={this.props.onChangeView}
-				title={'HELLO WORLD!'}
-			/>								
-				{/*{this.renderCards()}*/}
+			<div className="rc-dashboard">								
+				{this.renderCards()}				
 			</div>
 		)
 	}

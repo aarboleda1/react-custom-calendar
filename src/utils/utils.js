@@ -56,6 +56,9 @@ export let defaultEvents = [
 	{amPm: "AM", date: "12", hour: 8, minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
 	{amPm: "AM", date: "19", hour: 10, minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
 	{amPm: "AM", date: "10", hour: 10, minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
+	{amPm: "AM", date: "7", hour: 10, minute: "30", month: "August", name: "Xmas in August", type: "Holidays"},
+	{amPm: "AM", date: "28", hour: 10, minute: "30", month: "August", name: "Not my birthday", type: "Birthdays"},
+	
 ]
 
 
