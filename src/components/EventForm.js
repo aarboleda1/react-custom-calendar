@@ -90,13 +90,15 @@ export default class Popover extends Component {
 		return(
 			<Modal showModal={this.props.showModal}>
 				<div className="rc-popup">
-					<span onClick={closeModal} style={{float: 'right'}}>x</span>
+					<i onClick={closeModal} style={{right: '0', position: 'absolute'}} className="material-icons clear">clear</i>
 					<div className="rc-popup-title">
 						<span>Event</span>
 					</div>
 					<span>
 						Event your event information here
 					</span>
+					
+					{/*Body*/}
 					<div className="rc-popup-block">
 						<span>Event type</span>
 						<select value={this.state.type} name="type" onChange={this.handleChange}>
@@ -147,11 +149,33 @@ export default class Popover extends Component {
 								<option>{'AM'}</option>
 								<option>{'PM'}</option>							
 							</select>
-						</div>											
+						</div>	
+						<div className="rc-popup-block">
+							<span>Hour</span>
+							<select value={this.state.hour} name="hour" onChange={this.handleChange}>
+								{this.renderHours()}
+							</select>
+						</div>
+					<div className="rc-popup-block">
+						<span>Minute</span>
+						<select 
+							name="minute" 
+							value={this.state.minute} 
+							onChange={this.handleChange} 								
+						>
+							{this.renderMinutes()}
+						</select>
 					</div>
-					
+					<div className="rc-popup-block">										
+						<select name="amPm" onChange={this.handleChange} value={this.state.amPm}>
+							<option>{'AM'}</option>
+							<option>{'PM'}</option>							
+						</select>
+					</div>																
+					</div>
+					{/*Footer*/}					
 					<div className="rc-popup-footer">
-						<button className="rc-button" onClick={closeModal}> X Cancel </button>
+						<button className="rc-button" onClick={closeModal}> x Cancel </button>
 						<button className="rc-button-primary" onClick={this.handleSave}>Save</button>
 					</div>
 				</div>

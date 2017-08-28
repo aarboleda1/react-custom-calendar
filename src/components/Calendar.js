@@ -202,11 +202,15 @@ export default class Calendar extends Component {
 			return this.state.filters[event.type];
 		})
 		if (cardName === '') cardName = '(No Title)';
+		console.log(this.state.filters, 'is the filters!')
 		this.setState({
 			view: 'Dashboard',
 			snapShots: {
 				...this.state.snapShots,
-				[cardName]: filtered,
+				[cardName]: {
+					filters: this.state.filters,
+					events: filtered,
+				}
 			}
 		})
 		this.closeSnapShotForm();
@@ -221,7 +225,11 @@ export default class Calendar extends Component {
 		let newSnapShots = _.omit(this.state.snapShots, [cardName]);
 		this.setState({
 			snapShots: newSnapShots
-		})
+		});
+	}
+	applyFilters = (filters) => {
+		console.log(filters, 'ARE FILTERS')
+		this.setState({filters: filters});
 	}
 	render() {
 		const  {
@@ -291,6 +299,7 @@ export default class Calendar extends Component {
 						snapShots={this.state.snapShots}
 						onChangeView={this.onChangeView}
 						deleteCard={this.deleteCard}
+						applyFilters={this.applyFilters}
 					/>
 			}
 			</div>

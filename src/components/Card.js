@@ -7,10 +7,17 @@ import {defaultEvents, colorMap} from '../utils/utils';
 export default class Card extends Component {
 	static propTypes = {
 		onChangeView: PropTypes.func,
+		events: PropTypes.arrayOf(PropTypes.object),
+		filters: PropTypes.object,
+		applyFilters: PropTypes.func
 	}	
 	constructor(props) {
 		super(props)
+		this.state={
+			_filters: props.filters,
+		}
 	}
+
 	renderItems = () => {
 		return this.props.events.map((event, index) => {
 			return(
@@ -30,6 +37,10 @@ export default class Card extends Component {
 		  )
 		}) 
 	}
+	handleClick = () => {
+		this.props.onChangeView();
+		this.props.applyFilters(this.state._filters);
+	}
 	render(){
 		const {onChangeView, title, deleteCard} = this.props;
 		return(
@@ -43,7 +54,7 @@ export default class Card extends Component {
 						{this.renderItems()}
 					</div>
 					<div className="rc-card-footer">
-						<span onClick={onChangeView}>
+						<span onClick={this.handleClick}>
 							View all in Calendar
 						</span>
 					</div>

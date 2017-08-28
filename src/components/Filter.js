@@ -6,6 +6,7 @@ import {uniqueID, colorMap, eventTypes} from '../utils/utils';
 export default class Filter extends Component {
 	static propTypes = {
 		handleSelect: PropTypes.func,
+		filters: PropTypes.object
 	};
 	static defaultProps = {};
 	constructor(props) {
@@ -14,8 +15,6 @@ export default class Filter extends Component {
 	handleInputChange = (event) => {
 		event.preventDefault();
 		const target = event.target
-		console.dir(event.target);
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.accessKey;
 		this.props.handleSelect(name);
 	}
