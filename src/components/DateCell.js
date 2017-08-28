@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {uniqueID} from '../utils/utils';
-import Popover from './Popover';
+import EventForm from './EventForm';
 import  _ from 'lodash';
 
 const colorMap = {
-	'Birthdays': 'pink',
-	'Holidays': 'orange',
+	'Birthdays': '#AB47BC',
+	'Holidays': '#FFCA28',
 	'Company Events': 'green',
-	'Miscellaneous': 'blue',
+	'Miscellaneous': '#00BFA5',
 }
 
 export default class DateCell extends Component {
@@ -28,6 +28,7 @@ export default class DateCell extends Component {
 			_events: [],
 			_eventNames:{}
 		}		
+		// console.log(this.props.filters)
 	}
 
 	componentWillMount = () => {
@@ -38,7 +39,12 @@ export default class DateCell extends Component {
 		for (let i = 0; i < events.length; i++) {
 			let event = events[i];
 			if (event.date === this.state.date && event.month === this.state.month && !_eventNames[event.name]) {
-				_events.push(event);
+				let filters = this.props.filters;
+				for (let filterType in filters) {
+					if (filters[filterType] && event.type === filterType) {
+						_events.push(event);
+					}
+				}
 				_eventNames[event.name] = true;
 			}
 		}

@@ -1,11 +1,14 @@
 .rc-filter {
+    height: 100%;
+    width: 253px;
     font-size: small;
     display: flex;
     flex-direction: column;
     background: white;
-    height: 100%;
-    width: 200px;
     padding-right: 10px;
+    background: white;
+    padding-right: 10px;
+    margin-right: 15px;
 }
 
 .rc-filter-list-wrapper {
@@ -21,4 +24,12 @@
 .rc-filter-bottom-wrapper {
     padding-top: 10px;
     margin: 0 auto;
+}
+
+.rc-button-primary {
+    border: 1px solid transparent;
+    background: $rc-blue;
+    height: 30px;
+    color: white;
+    border-radius: 2px;
 }

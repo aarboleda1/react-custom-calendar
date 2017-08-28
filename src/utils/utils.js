@@ -41,4 +41,15 @@ export function daysInMonth(month,year) {
 }
 
 export let now = new Date();
+
+
 /*Experimental!*/
+export let defaultEvents = [
+	{amPm: "AM", date: "2", hour: 8, minute: "30", month: "August", name: "Work Event", type: "Company Events", },
+	{amPm: "AM", date: "12", hour: 8, minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
+	{amPm: "AM", date: "19", hour: 10, minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
+	{amPm: "AM", date: "10", hour: 10, minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
+	
+
+	
+]

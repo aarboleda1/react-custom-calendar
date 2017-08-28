@@ -41,7 +41,8 @@ export default class Month extends Component {
 					month={this.props.month}
 					openModal={this.props.openModal}
 					events={this.state.events}
-					newEvent={this.props.newEvent}						
+					newEvent={this.props.newEvent}
+					filters={this.props.filters}						
 				/>
 			)
 		})		

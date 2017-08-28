@@ -10,6 +10,12 @@ $show-me-border: none;
     min-height: 200px;
 }
 
+.rc-grid-container {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
 
 /*Calendar Toolbar*/
 
@@ -35,7 +41,6 @@ $show-me-border: none;
     position: absolute;
     width: 100%;
     height: 89%;
-    border: 2px solid purple;
     justify-content: center;
     flex-direction: column;
 }
@@ -64,6 +69,7 @@ $show-me-border: none;
 .rc-month-row-header {
     display: flex;
     flex-direction: row;
+    border-bottom: 0.5px solid #eee;
 }
 
 
@@ -71,4 +77,5 @@ $show-me-border: none;
 
 .rc-header-title {
     width: $cell-width;
+    text-align: center;
 }

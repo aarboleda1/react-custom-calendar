@@ -16,7 +16,7 @@ class App extends Component {
               onChangeView={() => 'hello'}
               view={'calendar'}
               date={now}
-              defaultCalView={[2017, 1]}
+              defaultCalView={[2017, 8]}
               elementProps={{filter: Filter}}
             />
           </div>

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
 import moment from 'moment';
-import Popover from './Popover';
+import EventForm from './EventForm';
+import SnapshotForm from './SnapshotForm';
 import _ from 'lodash';
 import {
 	daysOfWeek, 
@@ -10,7 +11,8 @@ import {
 	uniqueID, 
 	months, 
 	daysInMonth, 
-	now
+	now,
+	defaultEvents
 } from '../utils/utils';
 import Month from './Month';
 export default class Calendar extends Component {
@@ -69,6 +71,13 @@ export default class Calendar extends Component {
 			events: [],
 			newEvent: {},
 			showModal: false,
+			showSnapShotForm: false,
+			filters: {
+				Birthdays: true,
+				Holidays: true,
+				'Company Events': true,
+				Miscellaneous: true,
+			}
 		}
 	}
 
@@ -85,7 +94,7 @@ export default class Calendar extends Component {
 			month: months[monthInt],
 			year: year,
 			daysThisMonth: daysThisMonth,
-			events: [{amPm: "AM", date: "6", hour: 8, minute: "30", month: "January", name: "1st event", type: "Company Events", month: "January"}],
+			events: defaultEvents,
 		})
 	}
 	componentDidMount = () => {
@@ -154,6 +163,11 @@ export default class Calendar extends Component {
 			showModal: false,
 		})
 	}	
+	closeSnapShotForm = () => {
+		this.setState({
+			showSnapShotForm: false,
+		})
+	}
 	onAddEvent = (event) => {
 		this.setState({
 			events: [...this.state.events, event],
@@ -161,25 +175,56 @@ export default class Calendar extends Component {
 		})
 		this.closeModal();
 	}
+	handleSelect = (filter) => {
+		this.setState((previousState, currentProps) => {
+			return {
+				...previousState,
+				filters: {
+					...this.state.filters,
+					 [filter]: !this.state.filters[filter]
+				}
+			}
+		});
+	}
+	openSnapShotForm = () => {
+		this.setState({
+			showSnapShotForm: !this.state.showSnapShotForm
+		})
+	}
 	render() {
-		// let Filter = components.filter || Filter;
+		// let Filter = this.props.components.filter || Filter;
 		const {
 			month, 
 			year, 
 			showModal, 
-			events
+			events,
+			showSnapShotForm,
+			filters,
 		} = this.state;
 		const Filter = this.props.elementProps.filter;
 		return(
+		<div className="rc-grid-container">
+			{
+				this.props.elementProps.filter && 
+					<Filter 
+						filters={this.state.filters} 
+						handleSelect={this.handleSelect}
+						openModal={this.openSnapShotForm}
+					/>
+			}
 			<div className="rc-calendar">
-				{/*{this.props.elementProps.filter && <Filter/>}*/}
-				<Popover
+				<EventForm
 					showModal={showModal}
 					closeModal={this.closeModal}
 					month={month}
 					date={20}
 					onAddEvent={this.onAddEvent}
 					dateClicked={this.state.dateClicked}
+				/>
+				<SnapshotForm
+					showModal={showSnapShotForm}
+					closeModal={this.closeSnapShotForm}
+					filters={filters}
 				/>
 				<div className="rc-calendar-toolbar">
 					<span className="rc-toolbar-label">
@@ -199,8 +244,10 @@ export default class Calendar extends Component {
 					month={this.state.month}
 					openModal={this.openModal}
 					events={this.state.events}
-					newEvent={this.state.newEvent}						
+					newEvent={this.state.newEvent}
+					filters={this.state.filters}
 				/>
+			</div>
 			</div>
 		)
 	}

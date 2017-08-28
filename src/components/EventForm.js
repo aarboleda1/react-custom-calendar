@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {uniqueID, months, eventTypes} from '../utils/utils';
-
+import Modal from './Modal';
 export default class Popover extends Component {
 	static PropTypes = {
 		daysThisMonth: PropTypes.number,
@@ -47,7 +47,7 @@ export default class Popover extends Component {
 	renderDates = () => {
 		/*FILL THE NUM OF DATES WITH */
 		let numDates = 30; // fill this with the number of dates from props
-		let days = new Array(numDates).fill(null); // no calendar view yet
+		let days = new Array(numDates).fill(1); // no calendar view yet
 		return days.map((nullVal, index) => {
 			return <option key={uniqueID()}>{index + 1}</option>
 		})
@@ -69,9 +69,6 @@ export default class Popover extends Component {
 			return <option key={uniqueID()}>{eventType}</option>
 		})
 	}
-	closeModal = () => {
-		this.props.closeModal();
-	}
 	componentWillReceiveProps = (nextProps) => {
 		if (nextProps.month !== this.state.month) {
 			this.setState({
@@ -85,20 +82,16 @@ export default class Popover extends Component {
 	}
 	
 	render() {
-		const {onAddEvent} = this.props;
+		const {onAddEvent, closeModal} = this.props;
 		let modalClass = classNames({
 			'rc-popup-background': true,
 			'show': this.props.showModal,
 		})
 		return(
-			<div 
-				name="rc-popup-background show"
-				className={modalClass}
-				ref={(el) => {this.popOver = el}}
-			>
+			<Modal showModal={this.props.showModal}>
 				<div className="rc-popup">
-					<div style={{float: 'right'}}>x</div>
-					<div onClick={this.closeModal} className="rc-popup-title">
+					<div onClick={closeModal} style={{float: 'right'}}>x</div>
+					<div className="rc-popup-title">
 						<span>Event</span>
 					</div>
 					<span>
@@ -110,10 +103,12 @@ export default class Popover extends Component {
 							{this.renderEventTypes()}
 						</select>
 					</div>
+					
 					<div className="rc-popup-block">
 						<span>Name</span>
 						<input type="text" value={this.state.name} name="name" onChange={this.handleChange} autoFocus/>
 					</div>
+				
 					<div className="rc-popup-block-wrapper">
 						<div className="rc-popup-block">
 							<span>Month</span>
@@ -121,13 +116,15 @@ export default class Popover extends Component {
 								{this.renderMonths()}
 							</select>
 						</div>
+	
 						<div className="rc-popup-block">
 							<span>Date</span>
-							<select value={this.state.date} name="date" onChange={this.handleChange}>
+							<select value={this.state.date === null ? '' : this.state.date} name="date" onChange={this.handleChange}>
 								{this.renderDates()}
 							</select>
 						</div>	
-					</div>			
+					</div>	
+					
 					<div className="rc-popup-block-wrapper">
 						<div className="rc-popup-block">
 							<span>Hour</span>
@@ -152,12 +149,13 @@ export default class Popover extends Component {
 							</select>
 						</div>											
 					</div>
+					
 					<div className="rc-popup-footer">
-						<button className="rc-button" onClick={this.closeModal}> X Cancel </button>
-						<button className="rc-button" onClick={this.handleSave}>Save</button>
-					</div>				
+						<button className="rc-button" onClick={closeModal}> X Cancel </button>
+						<button className="rc-button-primary" onClick={this.handleSave}>Save</button>
+					</div>
 				</div>
-			</div>
+			</Modal>
 		)
 	}
 }

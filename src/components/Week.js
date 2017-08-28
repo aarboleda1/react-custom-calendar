@@ -42,7 +42,8 @@ export default class Week extends Component{
 					date={date}
 					openModal={this.props.openModal}
 					events={this.state.events}
-					newEvent={this.props.newEvent}											
+					newEvent={this.props.newEvent}
+					filters={this.props.filters}																	
 				/>
 			)
 		})
