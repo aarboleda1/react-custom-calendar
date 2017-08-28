@@ -9,6 +9,7 @@
 
 ** To see each component in action run `npm run storybook` **
 
+[__DEMO and Docs__](http://antonarboleda.io/react-custom-calendar/)
 ## Milestones and Tasks
 
 ## Libraries/Resources used
@@ -20,7 +21,8 @@
 * **_/src_**
    - **_/components_** _In the root of this folder are the main components that make up the UI_        
    + app.js - _main entry point into app_   
-    
+
+[]
 # API 
 React-custom-calendar is a calendar component for managing events and dates. I used moden flexbox for layout to make it responsive and performant. 
 
