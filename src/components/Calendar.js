@@ -114,6 +114,13 @@ export default class Calendar extends Component {
 			event.preventDefault();
 		}
 	}	
+	componentWillReceiveProps = (nextProps) => {
+		if (nextProps.view !== this.props.view) {
+			this.setState({
+				view: this.state.view === 'Calendar' ? 'Dashboard' : 'Calendar',
+			})
+		}
+	}
 	openModal = (date, name, eventKey) => {
 		let isEditingExisting = false;
 		if (eventKey) isEditingExisting = true;
@@ -265,7 +272,7 @@ export default class Calendar extends Component {
 		return(
 			<div className="rc-grid-container">
 				{
-					this.props.elementProps.filter && this.props.view === 'Calendar' &&
+					this.props.elementProps.filter && this.state.view === 'Calendar' &&
 						<Filter 
 							filters={this.state.filters} 
 							handleSelect={this.handleSelect}
@@ -288,7 +295,7 @@ export default class Calendar extends Component {
 					onAddToDashboard={this.onAddToDashboard}
 				/>
 
-				{this.props.view  === 'Calendar' ? <div className="rc-calendar">					
+				{this.state.view  === 'Calendar' ? <div className="rc-calendar">					
 					<div className="rc-calendar-toolbar">
 						<span className="rc-toolbar-label">
 							{month} {year}
