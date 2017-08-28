@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import {uniqueID} from '../utils/utils';
 import DateCell from './DateCell';
+
 export default class Week extends Component{
 	static PropTypes = {
 		week: PropTypes.array.isRequired,
@@ -23,7 +24,7 @@ export default class Week extends Component{
 	}
 
 	renderDateCells = () => {
-		const {week, daysThisMonth, events} = this.props; 
+		const {week, daysThisMonth} = this.props; 
 		let isBeginningOfMonth = week.length > 0 ? week[0].split('-')[0] < 20 : false;
 		/* If It is the beginning of the month, append empty cells */
 		if (week.length < 7 && isBeginningOfMonth) {

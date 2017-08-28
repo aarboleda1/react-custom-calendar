@@ -24,7 +24,8 @@ export default class EventForm extends Component {
 			start_amPm: 'AM',
 			end_hour: '9',
 			end_minute: '30',
-			end_amPm: 'AM'
+			end_amPm: 'AM',
+			key: this.props.key || null
 		}
 	}
 	handleChange = (event) => {
@@ -72,8 +73,7 @@ export default class EventForm extends Component {
 			return <option key={uniqueID()}>{eventType}</option>
 		})
 	}
-	componentWillReceiveProps = (nextProps) => {
-		
+	componentWillReceiveProps = (nextProps) => {		
 		if (nextProps.month !== this.state.month) {
 			this.setState({
 				month: nextProps.month,

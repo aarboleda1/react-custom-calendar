@@ -84,6 +84,7 @@ export default class Calendar extends Component {
 			snapShots: {},
 			dateClicked: null,
 			nameClicked: '',
+			editingExisting: false,
 		}
 	}
 
@@ -93,7 +94,7 @@ export default class Calendar extends Component {
 		let monthInt = defaultCalView ? defaultCalView[1] : date.getMonth() + 1; // gives it back from months 0 - 11
 		let year = defaultCalView ? defaultCalView[0] : moment().year();
 		let weeks = getDaysArray(year, monthInt);
-		let daysThisMonth = daysInMonth(year, monthInt)
+		let daysThisMonth = daysInMonth(year, monthInt);
 		this.setState({
 			weeks: weeks,
 			monthInt: monthInt, 
@@ -113,11 +114,14 @@ export default class Calendar extends Component {
 			event.preventDefault();
 		}
 	}	
-	openModal = (date, name) => {
+	openModal = (date, name, eventKey) => {
+		let isEditingExisting = false;
+		if (eventKey) isEditingExisting = true;
 		this.setState({
 			showModal: true,
 			dateClicked: date,
 			nameClicked: name,
+			editingExisting: isEditingExisting,
 		})
 	}
 	renderMonthHeader = () => {
@@ -176,8 +180,25 @@ export default class Calendar extends Component {
 		})
 	}
 	onAddEvent = (event) => {
+		console.log(this.state.editingExisting)
+		let events;
+		console.log(event.key)
+		if (this.state.editingExisting) {
+			events = this.state.events.map((_event) => {
+				console.log(_event.key)
+				if (_event.key === event.key) {
+					console.log(_event, 'is teh event!')
+					return event;
+				} else {
+					return _event;
+				}
+			})
+		} else {
+			event.key = uniqueID();
+			events = [...this.state.events, event]
+		}
 		this.setState({
-			events: [...this.state.events, event],
+			events: events,
 			newEvent: event,
 		})
 		this.closeModal();

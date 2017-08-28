@@ -56,13 +56,12 @@ export const colorMap = {
 
 /*Experimental!*/
 export let defaultEvents = [
-	{
-		start_amPm: "AM", end_amPm: 'AM', date: "2", start_hour: 8, end_hour: 10, start_minute: "30", end_minute: "30", month: "August", name: "Work Event", type: "Company Events", },
-	{start_amPm: "AM", end_amPm: 'AM', date: "12", start_hour: 8, end_hour: 8, start_minute: "30", end_minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
-	{start_amPm: "AM", end_amPm: 'PM', date: "19", start_hour: 10, end_hour: 8, start_minute: "30", end_minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
-	{start_amPm: "AM", end_amPm: 'PM',date: "10", start_hour: 10, end_hour: 8,start_minute: "30", end_minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
-	{start_amPm: "AM", end_amPm: 'PM', date: "7", start_hour: 10, end_hour: 8,start_minute: "30", end_minute: "30", month: "August", name: "Xmas in August", type: "Holidays"},
-	{start_amPm: "AM", end_amPm: 'PM', date: "28", start_hour: 10, end_hour: 1, start_minute: "30", end_minute: "30", month: "August", name: "Not my birthday", type: "Birthdays"},	
+	{key: '1af23', start_amPm: "AM", end_amPm: 'AM', date: "2", start_hour: 8, end_hour: 10, start_minute: "30", end_minute: "30", month: "August", name: "Work Event", type: "Company Events", },
+	{key: 'a2jfe', start_amPm: "AM", end_amPm: 'AM', date: "12", start_hour: 8, end_hour: 8, start_minute: "30", end_minute: "30", month: "August", name: "Moms Bday", type: "Birthdays"},
+	{key: 'a2jfe0', start_amPm: "AM", end_amPm: 'PM', date: "19", start_hour: 10, end_hour: 8, start_minute: "30", end_minute: "30", month: "August", name: "Go To Market", type: "Miscellaneous"},
+	{key: 'a93lj', start_amPm: "AM", end_amPm: 'PM',date: "10", start_hour: 10, end_hour: 8,start_minute: "30", end_minute: "30", month: "August", name: "Labor Day", type: "Holidays"},
+	{key: 'bk390', start_amPm: "AM", end_amPm: 'PM', date: "7", start_hour: 10, end_hour: 8,start_minute: "30", end_minute: "30", month: "August", name: "Xmas in August", type: "Holidays"},
+	{key: 'bkelan',start_amPm: "AM", end_amPm: 'PM', date: "28", start_hour: 10, end_hour: 1, start_minute: "30", end_minute: "30", month: "August", name: "Not my birthday", type: "Birthdays"},	
 ]
 
 

@@ -61,10 +61,13 @@ export default class DateCell extends Component {
 		this.props.openModal(this.props.date)
 		event.preventDefault();		
 	}
+	handleEditClick = (event) => {
+		this.props.openModal(this.props.date, event.name, event.key)
+	}
 	renderEvents = () => {
 		return this.state._events.map((event) => {
 			return (
-				<div onClick={() => this.props.openModal(this.props.date, event.name)} style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
+				<div onClick={() => this.handleEditClick(event)} style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
 					<div style={{height: '32px', width: '4px', backgroundColor: colorMap[event.type], 'marginRight': '4px'}}></div>
 					<div className="rc-date-cell-event-info">
 						<span>{event.name === '' ? '(No title)' : event.name}</span> <br/>
