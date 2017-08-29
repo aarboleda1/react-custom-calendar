@@ -33,12 +33,13 @@ React-custom-calendar is a calendar component for managing events and dates. I u
 React-custom-calendar comes with the ability to add a Dashboard and Calendar View to display events and dates in 
 
 ## events
-- type: `object`
+- type: `Array`
 types= ['Birthdays',	'Holidays',	'Company Events', 'Miscellaneous']
-Pass for each event, generate a unique id for each event. 
+Pass for each event, please generate your own unique id :).
 types: []
 id - `ak324nj`
-`[id]: {
+`[
+   {
    name: 'EventName',
    date: '14',
    month: 'August',
@@ -50,8 +51,8 @@ id - `ak324nj`
    end_minute: '30',
    end_amPm: '40',
    key: id
- }         
-}`
+   }         
+ ]`
 
 ## elementProps
 
