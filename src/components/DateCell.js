@@ -66,12 +66,15 @@ export default class DateCell extends Component {
   render() {
 		const {date, month} = this.props;
 		const {events} = this.state;
+		let currentDate = new Date().getDate();
+		
     return (
 			<div 
 				key={uniqueID()} 
 				className="rc-date-cell"
 			>
-				<span className="rc-date-cell-header" style={{marginLeft: '3px'}}>
+				<span 
+					style={{background: currentDate == this.state.date ? '#2196F3' : null}} className="rc-date-cell-header">
 					{date}
 				</span>
 				<div className="rc-date-cell-events-wrapper">
