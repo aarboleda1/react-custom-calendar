@@ -264,7 +264,6 @@ export default class Calendar extends Component {
 		this.setState({filters: filters});
 	}
 	render() {
-		console.log('render')
 		const  {
 			onChangeView,
 			elementProps,
