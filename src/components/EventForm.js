@@ -12,6 +12,7 @@ export default class EventForm extends Component {
 		onUpdateEvent: PropTypes.func.isRequired,
 		eventKey: PropTypes.string,
 		actionType: PropTypes.string,
+		currentEventItem: PropTypes.object,
 	};
 	static defaultProps = {};
 	constructor(props) {
@@ -86,7 +87,8 @@ export default class EventForm extends Component {
 	componentWillReceiveProps = (nextProps) => {				
 		if (nextProps.eventKey) {
 			this.setState({
-				_eventKey: nextProps.eventKey
+				_eventKey: nextProps.eventKey,
+				type: nextProps.currentEventItem.type,
 			})
 		}
 		if (nextProps.name == this.state.name) {

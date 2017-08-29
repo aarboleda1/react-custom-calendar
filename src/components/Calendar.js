@@ -87,6 +87,7 @@ export default class Calendar extends Component {
 			editingExisting: false,
 			actionType: '',
 			modifyEventKey: '',
+			currentEventItem: {},
 		}
 	}
 
@@ -123,15 +124,16 @@ export default class Calendar extends Component {
 			})
 		}
 	}
-	openModal = (date, name, eventKey, actionType) => {
+	openModal = (eventItem, actionType) => {
 		let isEditingExisting = false;
-		if (eventKey) isEditingExisting = true;
+		// if (eventKey) isEditingExisting = true;
 		this.setState({
 			showModal: true,
-			dateClicked: date,
-			nameClicked: name,
+			dateClicked: eventItem.date,
+			nameClicked: eventItem.name,
 			actionType: actionType,
-			modifyEventKey: eventKey,
+			modifyEventKey: eventItem.key,
+			currentEventItem: eventItem,
 		})
 	}
 	renderMonthHeader = () => {
@@ -295,6 +297,8 @@ export default class Calendar extends Component {
 					name={this.state.nameClicked}
 					eventKey={this.state.modifyEventKey}
 					actionType={this.state.actionType}
+					currentEventType={this.state.currentEventType}
+					currentEventItem={this.state.currentEventItem}
 				/>
 				<SnapshotForm
 					showModal={showSnapShotForm}
