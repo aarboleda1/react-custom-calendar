@@ -46,11 +46,10 @@ class App extends Component {
 							elementProps={
 								{
 									filter: Filter,
-									dashboard: Dashboard,
+									dashboard: Dashboard, // Calendar takes optional elements props to render
 								}
 							}
 						/>
-						{/*<Dashboard/> */}
           </div>
         </section>
       </div>

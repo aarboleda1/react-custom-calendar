@@ -25,22 +25,12 @@ export default class Week extends Component{
 		}
 	}
 	componentWillMount = (newProps) => {
-		// if (this.props.actionType === 'create') {
 			this.setState({
 				_actionType: this.props.actionType,
 				_events: this.props.events,
 				_filters: this.props.filters,
 			})
-		// }
 	}	
-	// componentWillReceiveProps = (newProps) => {
-	// 	console.log('should be receiving!')
-	// 	if (newProps.actionType === 'create') {						
-	// 		this.setState({
-	// 			_actionType: newProps.actionType,
-	// 		})
-	// 	}
-	// }
 
 	renderDateCells = () => {
 		const {week, daysThisMonth} = this.props; 
