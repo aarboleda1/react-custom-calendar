@@ -7,7 +7,7 @@ import Filter from './Filter';
 
 storiesOf('Basic Calendar', module)
   .add('Basic calendar', () => (<Basic/>))
-storiesOf('Modal', module)
-	.add('Basic Modal', () => (<Modal/>))
+// storiesOf('Modal', module)
+// 	.add('Basic Modal', () => (<Modal/>))
 storiesOf('Filter', module)
-	.add('Basic Filter', () => (<Filter/>))
+	.add('Basic Filter', () => (<Filter/>));

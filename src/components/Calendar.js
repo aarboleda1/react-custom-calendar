@@ -85,6 +85,7 @@ export default class Calendar extends Component {
 			dateClicked: null,
 			nameClicked: '',
 			editingExisting: false,
+			actionType: '',
 		}
 	}
 
