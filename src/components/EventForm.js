@@ -89,6 +89,11 @@ export default class EventForm extends Component {
 				_eventKey: nextProps.eventKey
 			})
 		}
+		if (nextProps.name == this.state.name) {
+			this.setState({
+				name: ''
+			})
+		}
 		if (nextProps.month !== this.state.month) {
 			this.setState({
 				month: nextProps.month,
