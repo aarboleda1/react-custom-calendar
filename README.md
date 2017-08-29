@@ -22,7 +22,6 @@
    - **_/components_** _In the root of this folder are the main components that make up the UI_        
    + app.js - _main entry point into app_   
 
-[]
 # API 
 React-custom-calendar is a calendar component for managing events and dates. I used moden flexbox for layout to make it responsive and performant. 
 
@@ -65,9 +64,9 @@ You also have the option of toggling between views and passing in a custom dashb
 - Edit and Delete events 
 - Deploy online
 
+## Challenges
 
-
-
+One of the main challenges was configuring the architecture for this app. I wrestled between the options of using a Flux style architecture or using a traditional React style architecture i.e. unidirectional data flow between parent and child components. Ultimately, I decided to not use Flux style architecture. I didn't see the need as this wasn't a large scale application. However, as the application grew, I did find myself passing down data, many levels down and up the tree. This led to the headache of tracking the data and application state. If I had to do it over, I probably would have used a Flux architecture in order to have data access at any level of the tree.
 
 ## License
 The content of this repository is licensed under a MIT license.
