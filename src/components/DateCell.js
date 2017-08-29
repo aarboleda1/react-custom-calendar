@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {uniqueID, colorMap} from '../utils/utils';
+import {uniqueID, colorMap, months} from '../utils/utils';
 import EventForm from './EventForm';
 import  _ from 'lodash';
 
@@ -66,15 +66,21 @@ export default class DateCell extends Component {
   render() {
 		const {date, month} = this.props;
 		const {events} = this.state;
-		let currentDate = new Date().getDate();
-		
+		let dateNow = new Date(),
+		    currentDate = dateNow.getDate(),
+		    currentMonthIndex = dateNow.getMonth(), // 0 based month index;
+				currentMonth = months[currentMonthIndex + 1];
     return (
 			<div 
 				key={uniqueID()} 
 				className="rc-date-cell"
 			>
 				<span 
-					style={{background: currentDate == this.state.date ? '#2196F3' : null}} className="rc-date-cell-header">
+					style={{
+						background: currentDate == this.state.date && currentMonth === this.state.month ? '#2196F3' : null
+					}} 
+					className="rc-date-cell-header"
+				>
 					{date}
 				</span>
 				<div className="rc-date-cell-events-wrapper">
