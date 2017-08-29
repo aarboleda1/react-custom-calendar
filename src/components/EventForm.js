@@ -9,7 +9,8 @@ export default class EventForm extends Component {
 		showModal: PropTypes.bool,
 		closeModal: PropTypes.func,
 		date: PropTypes.string,		
-		onAddEvent: PropTypes.func.isRequired,
+		onUpdateEvent: PropTypes.func.isRequired,
+		eventKey: PropTypes.string,
 	};
 	static defaultProps = {};
 	constructor(props) {
@@ -39,7 +40,15 @@ export default class EventForm extends Component {
 		this.setState({
 			name: ''
 		}) 
-		this.props.onAddEvent(this.state);
+		let isEditing = this.props.eventKey;
+		if (isEditing) {
+			this.props.onUpdateEvent(this.props.eventKey, 'edit', this.state);
+		} else {
+			this.props.onUpdateEvent(null, 'create', this.state);
+		}
+		this.setState({
+			name: '',
+		})
 	}
 	renderMonths = () => {
 		let monthCopy = months.slice();
@@ -74,6 +83,12 @@ export default class EventForm extends Component {
 		})
 	}
 	componentWillReceiveProps = (nextProps) => {		
+		
+		if (nextProps.eventKey) {
+			this.setState({
+				_eventKey: nextProps.eventKey
+			})
+		}
 		if (nextProps.month !== this.state.month) {
 			this.setState({
 				month: nextProps.month,
@@ -89,6 +104,10 @@ export default class EventForm extends Component {
 				name: nextProps.name,
 			})			
 		} 
+	}
+	handleDelete = () => {
+		this.props.closeModal();
+		this.props.onUpdateEvent(this.state.eventKey, 'delete');
 	}
 	
 	render() {
@@ -186,6 +205,7 @@ export default class EventForm extends Component {
 					{/*Footer*/}					
 					<div className="rc-popup-footer">
 						<button className="rc-button cancel" onClick={closeModal}> x Cancel </button>
+						<button className="rc-button cancel" onClick={this.handleDelete}> Delete </button>
 						<button className="rc-button-primary add" onClick={this.handleSave}>Save</button>
 					</div>
 				</div>

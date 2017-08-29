@@ -86,6 +86,7 @@ export default class Calendar extends Component {
 			nameClicked: '',
 			editingExisting: false,
 			actionType: '',
+			modifyEventKey: '',
 		}
 	}
 
@@ -130,6 +131,7 @@ export default class Calendar extends Component {
 			dateClicked: date,
 			nameClicked: name,
 			editingExisting: isEditingExisting,
+			modifyEventKey: eventKey,
 		})
 	}
 	renderMonthHeader = () => {
@@ -187,23 +189,26 @@ export default class Calendar extends Component {
 			showSnapShotForm: false,
 		})
 	}
-	onAddEvent = (event) => {
-		let events;
-		if (this.state.editingExisting) {
-			events = this.state.events.map((_event) => {
-				if (_event.key === event.key) {
-					return event;
+	onUpdateEvent = (eventKey, actionType, eventItem) => {
+		let newEvents;
+		if (actionType === 'delete') {
+			newEvents = this.state.events.filter((event) => {
+				return event.key !== this.state.modifyEventKey
+			})
+		} else if (actionType === 'edit') {
+			newEvents = this.state.events.map((oldEvent) => {
+				if (oldEvent.key === eventKey) {
+					eventItem.key = eventKey;
+					return eventItem
 				} else {
-					return _event;
+					return oldEvent
 				}
 			})
-		} else {
-			event.key = uniqueID();
-			events = [...this.state.events, event]
+		} else if (actionType === 'create') {
+			newEvents = this.state.events.concat(eventItem)
 		}
 		this.setState({
-			events: events,
-			newEvent: event,
+			events: newEvents
 		})
 		this.closeModal();
 	}
@@ -285,9 +290,10 @@ export default class Calendar extends Component {
 					closeModal={this.closeModal}
 					month={month}
 					date={20}
-					onAddEvent={this.onAddEvent}
+					onUpdateEvent={this.onUpdateEvent}
 					dateClicked={this.state.dateClicked}
 					name={this.state.nameClicked}
+					eventKey={this.state.modifyEventKey}
 				/>
 				<SnapshotForm
 					showModal={showSnapShotForm}
@@ -318,6 +324,7 @@ export default class Calendar extends Component {
 						events={this.state.events}
 						newEvent={this.state.newEvent}
 						filters={this.state.filters}
+						actionType={this.state.actionType}
 					/>			
 					</div> :
 					<Dashboard

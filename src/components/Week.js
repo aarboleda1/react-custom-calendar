@@ -19,9 +19,28 @@ export default class Week extends Component{
 	constructor(props) {
 		super(props)
 		this.state = {
-			events: this.props.events,
+			events: [],
+			_actionType: '',
+			_filters: this.props.filters,
 		}
 	}
+	componentWillMount = (newProps) => {
+		// if (this.props.actionType === 'create') {
+			this.setState({
+				_actionType: this.props.actionType,
+				_events: this.props.events,
+				_filters: this.props.filters,
+			})
+		// }
+	}	
+	// componentWillReceiveProps = (newProps) => {
+	// 	console.log('should be receiving!')
+	// 	if (newProps.actionType === 'create') {						
+	// 		this.setState({
+	// 			_actionType: newProps.actionType,
+	// 		})
+	// 	}
+	// }
 
 	renderDateCells = () => {
 		const {week, daysThisMonth} = this.props; 
@@ -42,9 +61,10 @@ export default class Week extends Component{
 					key={uniqueID()} 
 					date={date}
 					openModal={this.props.openModal}
-					events={this.state.events}
+					events={this.state._events}
 					newEvent={this.props.newEvent}
-					filters={this.props.filters}																	
+					filters={this.props.filters}	
+					actionType={this.state._actionType}																
 				/>
 			)
 		})

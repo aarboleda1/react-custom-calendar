@@ -19,42 +19,20 @@ export default class DateCell extends Component {
 			month: this.props.month,
 			date: this.props.date,
 			test: false,
-			_events: [],
-			_eventNames:{}
+			_events: this.props.events,
+			_eventNames:{},
+			_actionType: '',
 		}		
 	}
 
-	componentWillMount = () => {
-		let events = this.props.events;
-		let newEvent = this.props.events[this.props.events.length - 1];
-		const {_eventNames} = this.state;
-		let _events = [];
-		for (let i = 0; i < events.length; i++) {
-			let event = events[i];
-			if (event.date === this.state.date && event.month === this.state.month && !_eventNames[event.name]) {
-				let filters = this.props.filters;
-				for (let filterType in filters) {
-					if (filters[filterType] && event.type === filterType) {
-						_events.push(event);
-					}
-				}
-				_eventNames[event.name] = true;
-			}
-		}
-		if (_events.length) {
-			this.setState({
-				_events: [...this.state._events, ..._events]
-			})
-		}
-	}
 	componentDidMount = () => {
-		let event = this.props.newEvent;
-		let {date, month} = event;
-		if (date == this.state.date && this.state.month === month) {
-			this.setState({
-				events: [...this.state._events, event],
-			})
-		}
+		let filtered = this.props.events.filter((event) => {
+			return (event.date === this.state.date && event.month == this.state.month && this.props.filters[event.type]);
+		})
+		this.setState({
+			_events: filtered,
+			_actionType: this.props.actionType,
+		})		
 	}
 
 	handleClick = (event) => {
@@ -65,23 +43,25 @@ export default class DateCell extends Component {
 		this.props.openModal(this.props.date, event.name, event.key)
 	}
 	renderEvents = () => {
-		return this.state._events.map((event) => {
-			return (
-				<div onClick={() => this.handleEditClick(event)} style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
-					<div style={{height: '32px', width: '4px', backgroundColor: colorMap[event.type], 'marginRight': '4px'}}></div>
-					<div className="rc-date-cell-event-info">
-						<span>{event.name === '' ? '(No title)' : event.name}</span> <br/>
-						<span>{event.start_hour}</span>:
-						<span>{event.start_minute}</span>
-						<span>{event.start_amPm.toLowerCase()}</span>
-						<span>{' ' + 'to' + ' '}</span>
-						<span>{event.end_hour}</span>:
-						<span>{event.end_minute}</span>
-						<span>{event.end_amPm.toLowerCase()}</span>							
-					</div>				
-				</div>
-			);
-		})
+		if (this.state._events && this.state._events.length > 0) {
+			return this.state._events.map((event) => {
+				return (
+					<div onClick={() => this.handleEditClick(event)} style={{display: 'flex'}}className="rc-date-cell-event" key={uniqueID()}>	
+						<div style={{height: '32px', width: '4px', backgroundColor: colorMap[event.type], 'marginRight': '4px'}}></div>
+						<div className="rc-date-cell-event-info">
+							<span>{event.name === '' ? '(No title)' : event.name}</span> <br/>
+							<span>{event.start_hour}</span>:
+							<span>{event.start_minute}</span>
+							<span>{event.start_amPm.toLowerCase()}</span>
+							<span>{' ' + 'to' + ' '}</span>
+							<span>{event.end_hour}</span>:
+							<span>{event.end_minute}</span>
+							<span>{event.end_amPm.toLowerCase()}</span>							
+						</div>				
+					</div>
+				);
+			})
+		}
 	}
   render() {
 		const {date, month} = this.props;

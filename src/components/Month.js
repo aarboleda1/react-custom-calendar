@@ -17,16 +17,36 @@ export default class Month extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			events: this.props.events,
+			_events: this.props.events,
+			_actionType: 0,
+			_filters: this.props.filters,
 		} 
 	}
+
 	componentWillReceiveProps = (newProps) => {
-		if (!_.isEqual(this.props, newProps)) {
-			let newEvent = _.difference(newProps.events, this.props.events);
+		if (newProps.actionType === 'create') {
 			this.setState({
-				events: [...this.state.events, newProps.events[newProps.events.length - 1]],
-			})	
+				_actionType: newProps.actionType,
+				_events: newProps.events,
+			})
 		}
+		if (!_.isEqual(this.state._filters, newProps.filters)) {
+			this.setState({
+				_filters: newProps.filters
+			})
+		}
+		if (!_.isEqual(this.state._events, newProps.events)) {
+			this.setState({
+				_events: newProps.events
+			})			
+		}
+	}
+	componentDidMount = () => {
+		this.setState({
+			_events: this.props.events,
+			_filters: this.props.filters,
+			_actionType: this.props.actionType,
+		}) 
 	}
 
 	renderWeeks = () => {
@@ -40,9 +60,10 @@ export default class Month extends Component {
 					daysThisMonth={this.props.daysThisMonth}
 					month={this.props.month}
 					openModal={this.props.openModal}
-					events={this.state.events}
+					events={this.state._events}
 					newEvent={this.props.newEvent}
-					filters={this.props.filters}						
+					filters={this.state._filters}
+					actionType={this.state._actionType}						
 				/>
 			)
 		})		
