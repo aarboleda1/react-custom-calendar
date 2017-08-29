@@ -13,6 +13,7 @@ export default class EventForm extends Component {
 		eventKey: PropTypes.string,
 		actionType: PropTypes.string,
 		currentEventItem: PropTypes.object,
+		dateClicked: PropTypes.string.isRequired, // is the current date of the clicked Cell
 	};
 	static defaultProps = {};
 	constructor(props) {
@@ -20,7 +21,7 @@ export default class EventForm extends Component {
 		this.state = {
 			name: this.props.name,
 			month: this.props.month, // default this to props
-			date: this.props.date,
+			date: this.props.dateClicked,
 			type: 'Company Events',
 			start_hour: 8,
 			start_minute: '30',
@@ -28,7 +29,7 @@ export default class EventForm extends Component {
 			end_hour: '9',
 			end_minute: '30',
 			end_amPm: 'AM',
-			key: this.props.key || null
+			key: this.props.key || null,
 		}
 	}
 	handleChange = (event) => {
@@ -84,23 +85,30 @@ export default class EventForm extends Component {
 			return <option key={uniqueID()}>{eventType}</option>
 		})
 	}
-	componentWillReceiveProps = (nextProps) => {				
+	componentWillReceiveProps = (nextProps) => {
+		this.setState({
+			date: nextProps.dateClicked,
+		})
 		if (nextProps.eventKey) {
 			this.setState({
 				_eventKey: nextProps.eventKey,
 				type: nextProps.currentEventItem.type,
+				date: nextProps.dateClicked,
 			})
 		}
 		if (nextProps.name == this.state.name) {
 			this.setState({
-				name: ''
+				name: '',
+				date: nextProps.dateClicked,
 			})
 		}
 		if (nextProps.month !== this.state.month) {
 			this.setState({
 				month: nextProps.month,
+				date: nextProps.dateClicked,
 			})
-		} else if (nextProps.dateClicked !== this.state.date && nextProps.name === '') {
+		}
+		if (nextProps.dateClicked !== this.state.date && nextProps.name === '') {
 				this.setState({
 					date: nextProps.dateClicked,
 					name: '',
@@ -110,13 +118,12 @@ export default class EventForm extends Component {
 				date: nextProps.dateClicked,
 				name: nextProps.name,
 			})			
-		} 
+		}
 	}
 	handleDelete = () => {
 		this.props.closeModal();
 		this.props.onUpdateEvent(this.state.eventKey, 'delete');
 	}
-	
 	render() {
 		const {onAddEvent, closeModal} = this.props;
 		let modalClass = classNames({
@@ -156,7 +163,7 @@ export default class EventForm extends Component {
 						</div>
 						<div className="rc-popup-block">
 							<span>Date</span>
-							<select value={this.state.date === null ? '' : this.state.date} name="date" onChange={this.handleChange}>
+							<select value={this.state.date} name="date" onChange={this.handleChange}>
 								{this.renderDates()}
 							</select>
 						</div>	

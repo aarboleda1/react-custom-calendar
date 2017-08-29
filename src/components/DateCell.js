@@ -34,9 +34,9 @@ export default class DateCell extends Component {
 			_actionType: this.props.actionType,
 		})		
 	}
-
+	/* Opening a new cell to change*/
 	handleClick = (event) => {
-		this.props.openModal(this.props.date)
+		this.props.openModal(this.state, 'create')
 		event.preventDefault();		
 	}
 	handleEditClick = (eventItem) => {

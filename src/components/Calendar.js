@@ -82,7 +82,7 @@ export default class Calendar extends Component {
 				Miscellaneous: true,
 			},
 			snapShots: {},
-			dateClicked: null,
+			dateClicked: 1,
 			nameClicked: '',
 			editingExisting: false,
 			actionType: '',
@@ -126,7 +126,6 @@ export default class Calendar extends Component {
 	}
 	openModal = (eventItem, actionType) => {
 		let isEditingExisting = false;
-		// if (eventKey) isEditingExisting = true;
 		this.setState({
 			showModal: true,
 			dateClicked: eventItem.date,
@@ -207,7 +206,9 @@ export default class Calendar extends Component {
 				}
 			})
 		} else if (actionType === 'create') {
+			console.log(eventItem, 'is the new event!')
 			newEvents = this.state.events.concat(eventItem)
+			console.log(newEvents, 'are the new events!')
 		}
 		this.setState({
 			events: newEvents
