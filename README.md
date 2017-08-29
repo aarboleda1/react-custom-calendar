@@ -61,8 +61,6 @@ You have the option of passing in a <Filter/> component, in order to see a selec
 You also have the option of toggling between views and passing in a custom dashboard view 
 ## Todo
 - Snapshots don't take a snapshot of the month, but rather a a snapshot of all events with the correct type. 
-- Edit and Delete events 
-- Deploy online
 
 ## Challenges
 
