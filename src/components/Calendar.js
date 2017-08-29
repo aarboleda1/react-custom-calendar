@@ -98,6 +98,7 @@ export default class Calendar extends Component {
 		let year = defaultCalView ? defaultCalView[0] : moment().year();
 		let weeks = getDaysArray(year, monthInt);
 		let daysThisMonth = daysInMonth(year, monthInt);
+		const context = this;
 		this.setState({
 			weeks: weeks,
 			monthInt: monthInt, 
@@ -106,9 +107,8 @@ export default class Calendar extends Component {
 			daysThisMonth: daysThisMonth,
 			events: defaultEvents,
 		})
-	}
-	componentDidMount = () => {
-		let context = this;
+
+		/* When a modal is open, listen for a click event anywhere in the screen to close it */
 		window.onclick = function(event) {
 			if(event.target.className === 'rc-popup-background show') {
 				context.closeModal();
@@ -116,7 +116,7 @@ export default class Calendar extends Component {
 			} 
 			event.preventDefault();
 		}
-	}	
+	}
 	componentWillReceiveProps = (nextProps) => {
 		if (nextProps.view !== this.props.view) {
 			this.setState({

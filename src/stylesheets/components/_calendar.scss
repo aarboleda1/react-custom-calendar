@@ -61,6 +61,7 @@ $show-me-border: none;
 }
 
 .rc-month-row {
+    padding-top: 4px;
     display: flex;
     flex-direction: row;
     border-top: $border-top;
@@ -74,9 +75,18 @@ $show-me-border: none;
 }
 
 
-/*Monthly Cels*/
+/*Monthly Cells*/
 
 .rc-header-title {
     width: $cell-width;
     text-align: center;
+}
+
+
+/*Date Cells*/
+
+.rc-date-cell-header {
+    padding: 3px;
+    margin-left: 3px;
+    border-radius: 30px;
 }
