@@ -34,7 +34,7 @@ class App extends Component {
   render() {
     return (
       <div className="rc-app-wrapper">
-        <Header changeView={this.changeView}/>
+        <Header changeView={this.changeView} view={this.state.view}/>
         <section className="content rc-app-main">
           <div className="rc-container-wrapper">
 						<Calendar
