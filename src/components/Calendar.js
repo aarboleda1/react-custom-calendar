@@ -123,14 +123,14 @@ export default class Calendar extends Component {
 			})
 		}
 	}
-	openModal = (date, name, eventKey) => {
+	openModal = (date, name, eventKey, actionType) => {
 		let isEditingExisting = false;
 		if (eventKey) isEditingExisting = true;
 		this.setState({
 			showModal: true,
 			dateClicked: date,
 			nameClicked: name,
-			editingExisting: isEditingExisting,
+			actionType: actionType,
 			modifyEventKey: eventKey,
 		})
 	}
@@ -294,6 +294,7 @@ export default class Calendar extends Component {
 					dateClicked={this.state.dateClicked}
 					name={this.state.nameClicked}
 					eventKey={this.state.modifyEventKey}
+					actionType={this.state.actionType}
 				/>
 				<SnapshotForm
 					showModal={showSnapShotForm}

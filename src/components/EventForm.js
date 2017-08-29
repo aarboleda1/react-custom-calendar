@@ -11,6 +11,7 @@ export default class EventForm extends Component {
 		date: PropTypes.string,		
 		onUpdateEvent: PropTypes.func.isRequired,
 		eventKey: PropTypes.string,
+		actionType: PropTypes.string,
 	};
 	static defaultProps = {};
 	constructor(props) {
@@ -82,8 +83,7 @@ export default class EventForm extends Component {
 			return <option key={uniqueID()}>{eventType}</option>
 		})
 	}
-	componentWillReceiveProps = (nextProps) => {		
-		
+	componentWillReceiveProps = (nextProps) => {				
 		if (nextProps.eventKey) {
 			this.setState({
 				_eventKey: nextProps.eventKey
@@ -204,8 +204,13 @@ export default class EventForm extends Component {
 				</div>
 					{/*Footer*/}					
 					<div className="rc-popup-footer">
+						{this.props.actionType === 'edit' && 
+							<button className="rc-button cancel" 
+								onClick={this.handleDelete}> 
+								Delete 
+							</button>
+						}
 						<button className="rc-button cancel" onClick={closeModal}> x Cancel </button>
-						<button className="rc-button cancel" onClick={this.handleDelete}> Delete </button>
 						<button className="rc-button-primary add" onClick={this.handleSave}>Save</button>
 					</div>
 				</div>

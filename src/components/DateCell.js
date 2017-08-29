@@ -40,7 +40,7 @@ export default class DateCell extends Component {
 		event.preventDefault();		
 	}
 	handleEditClick = (event) => {
-		this.props.openModal(this.props.date, event.name, event.key)
+		this.props.openModal(this.props.date, event.name, event.key, 'edit')
 	}
 	renderEvents = () => {
 		if (this.state._events && this.state._events.length > 0) {
